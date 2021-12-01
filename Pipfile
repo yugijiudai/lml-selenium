@@ -1,0 +1,22 @@
+[[source]]
+url = "https://mirrors.aliyun.com/pypi/simple/"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+numpy = "*"
+pymysql = "*"
+requests = "*"
+jsonpath = "*"
+json5 = "*"
+pyautogui = "0.9.50"
+pyperclip = "*"
+xlrd = "*"
+pillow = "*"
+selenium-wire = "*"
+opencv-python = {version = "*", index = "https://pypi.tuna.tsinghua.edu.cn/simple"}
+
+[dev-packages]
+
+[requires]
+python_version = "3.8"
