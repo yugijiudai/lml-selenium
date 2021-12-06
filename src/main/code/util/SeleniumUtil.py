@@ -1,17 +1,15 @@
 # Author : lml
 # Date : 2021/12/1
 
+from loguru import logger
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
 from seleniumwire import webdriver
 
+from src.main.code.config.GlobalConfig import GlobalConfig
 from src.main.code.config.Logger import MyLogger
 from src.main.code.exceptions.FindElementException import FindElementException
-from src.main.code.util.InitUtil import InitUtil
-
-# 日志
-log = MyLogger.get_log()
 
 
 class SeleniumUtil:
@@ -22,7 +20,7 @@ class SeleniumUtil:
     selenium_driver = None
 
     # 初始化设置
-    setting = InitUtil.init_setting()
+    config = GlobalConfig.get_config()
 
     @classmethod
     def get_driver(cls):
@@ -31,9 +29,8 @@ class SeleniumUtil:
         :return: 初始化好的驱动
         """
         options = webdriver.ChromeOptions()
-        # options.add_argument('User-Agent=Mozilla/5.0 (Linux; U; Android 8.1.0; zh-cn; BLA-AL00 Build/HUAWEIBLA-AL00) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/57.0.2987.132 MQQBrowser/8.9 Mobile Safari/537.36')
         # 浏览器不提供可视化页面
-        # options.add_argument('--headless')
+        options.add_argument('--headless')
         # 禁用扩展
         options.add_argument('disable-extensions')
         # 禁用阻止弹出窗口
@@ -43,7 +40,7 @@ class SeleniumUtil:
             'credentials_enable_service': False,
             'profile.password_manager_enabled': False
         })
-        cls.selenium_driver = webdriver.Chrome(chrome_options=options, executable_path=cls.setting['driverPath'])
+        cls.selenium_driver = webdriver.Chrome(chrome_options=options, executable_path=cls.config['driverPath'])
         return cls.selenium_driver
 
     @staticmethod
@@ -86,7 +83,7 @@ class SeleniumUtil:
         :return: 返回查找到的元素
         """
         attempts = 0
-        retry = cls.setting['retry']
+        retry = cls.config['retry']
         by = handle_dto['by']
         path = handle_dto['path']
         while attempts <= retry:
@@ -101,7 +98,7 @@ class SeleniumUtil:
                     MyLogger.log_error(msg)
                     raise FindElementException(msg)
                 attempts = attempts + 1
-                log.warning('操作节点{}【{}】时,发生错误,重试第{}次', by, path, attempts)
+                logger.warning('操作节点{}【{}】时,发生错误,重试第{}次', by, path, attempts)
 
     @classmethod
     def __fluent_find(cls, by: By, path: str) -> list:
@@ -111,8 +108,8 @@ class SeleniumUtil:
         :param path: 需要点击的元素的路径
         :return: 返回查找到的元素
         """
-        wait_ele = WebDriverWait(cls.selenium_driver, cls.setting['waitElement']).until(lambda browser: browser.find_elements(by, path))
-        log.debug("元素:{},存在:{}", wait_ele, cls.is_find(wait_ele))
+        wait_ele = WebDriverWait(cls.selenium_driver, cls.config['waitElement']).until(lambda browser: browser.find_elements(by, path))
+        logger.info("元素:{},存在:{}", wait_ele, cls.is_find(wait_ele))
         return wait_ele
 
     @classmethod

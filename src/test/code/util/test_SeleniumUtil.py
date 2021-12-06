@@ -1,9 +1,6 @@
 # Author : lml
 # Date : 2021/12/6
 
-"""
-文件说明
-"""
 from unittest import TestCase
 
 from selenium.webdriver.common.by import By
