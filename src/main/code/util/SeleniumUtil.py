@@ -43,7 +43,7 @@ class SeleniumUtil:
             'credentials_enable_service': False,
             'profile.password_manager_enabled': False
         })
-        cls.selenium_driver = webdriver.Chrome(chrome_options=options, executable_path='/Volumes/common/dev/driver/chromedriver')
+        cls.selenium_driver = webdriver.Chrome(chrome_options=options, executable_path=cls.setting['driverPath'])
         return cls.selenium_driver
 
     @staticmethod
@@ -98,7 +98,7 @@ class SeleniumUtil:
             except Exception:
                 if attempts == retry:
                     msg = f'查找{by}【{path}】时尝试{attempts}次仍然发生错误'
-                    MyLogger.except_info(msg)
+                    MyLogger.log_error(msg)
                     raise FindElementException(msg)
                 attempts = attempts + 1
                 log.warning('操作节点{}【{}】时,发生错误,重试第{}次', by, path, attempts)
@@ -112,7 +112,7 @@ class SeleniumUtil:
         :return: 返回查找到的元素
         """
         wait_ele = WebDriverWait(cls.selenium_driver, cls.setting['waitElement']).until(lambda browser: browser.find_elements(by, path))
-        log.info("元素:{},存在:{}", wait_ele, cls.is_find(wait_ele))
+        log.debug("元素:{},存在:{}", wait_ele, cls.is_find(wait_ele))
         return wait_ele
 
     @classmethod
@@ -122,10 +122,10 @@ class SeleniumUtil:
         :param elements: 查找到的元素
         :return: true表示可用
         """
-        flag = False
         for find_ele in elements:
-            flag = find_ele is not None and find_ele.is_displayed() and find_ele.is_enabled()
-        return flag
+            if find_ele is None or not find_ele.is_displayed() or not find_ele.is_enabled():
+                return False
+        return True
 
     @classmethod
     def send_keys(cls, by: By, path: str, text: str):

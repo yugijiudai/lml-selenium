@@ -1,4 +1,7 @@
 {
+  //  chromeDriver位置
+  //  "driverPath": "D:\\driver\\chromedriver.exe",
+  "driverPath": "/Volumes/common/dev/driver/chromedriver",
   //  查找元素的重试次数
   "retry": 2,
   //  查找元素的时候等待元素的时间

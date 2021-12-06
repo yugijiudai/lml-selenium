@@ -12,6 +12,7 @@ from loguru import logger
 
 def init_log():
     file = '/Volumes/common/logs/selenium.log'
+    logger.add(file, format="{time:YYYY-MM-DD at HH:mm:ss} | {level} | {message}", level="INFO")
     # 文件过大就会重新生成一个文件
     logger.add(file, rotation="500 MB")
     # 每天12点创建新文件
@@ -23,11 +24,10 @@ def init_log():
     # 保存zip格式
     # logger.add(file, compression="zip")
     # 异步写入
-    # logger.add("somefile.log", enqueue=True)
+    # logger.add("file", enqueue=True)
     # 序列化为json
     logger.add(file, serialize=True)
-    logger.add(file, format="{time:YYYY-MM-DD at HH:mm:ss} | {level} | {message}", level="INFO")
-    print("日志初始化成功...")
+    logger.info("日志初始化成功...")
 
 
 # 初始化日志相关配置
@@ -35,6 +35,9 @@ init_log()
 
 
 class MyLogger:
+    """
+    日志配置
+    """
 
     @staticmethod
     def get_log():
@@ -42,7 +45,7 @@ class MyLogger:
 
     # 异常信息打印
     @staticmethod
-    def except_info(params=None):
+    def log_error(params=None):
         exc_type, exc_value, exc_traceback = sys.exc_info()
         traceback_details = {
             "filename": exc_traceback.tb_frame.f_code.co_filename,
