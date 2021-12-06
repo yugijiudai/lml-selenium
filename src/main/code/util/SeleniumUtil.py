@@ -10,6 +10,7 @@ from seleniumwire import webdriver
 from src.main.code.config.GlobalConfig import GlobalConfig
 from src.main.code.config.Logger import MyLogger
 from src.main.code.exceptions.FindElementException import FindElementException
+from src.main.code.util.JsUtil import JsUtil
 
 
 class SeleniumUtil:
@@ -41,6 +42,8 @@ class SeleniumUtil:
             'profile.password_manager_enabled': False
         })
         cls.selenium_driver = webdriver.Chrome(chrome_options=options, executable_path=cls.config['driverPath'])
+        # 初始化js工具类的驱动
+        JsUtil.init_driver(cls.selenium_driver)
         return cls.selenium_driver
 
     @staticmethod
