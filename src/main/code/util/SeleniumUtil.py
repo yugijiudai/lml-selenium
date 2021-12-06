@@ -1,9 +1,17 @@
 # Author : lml
 # Date : 2021/12/1
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
 from seleniumwire import webdriver
+
+from src.main.code.config.Logger import MyLogger
+from src.main.code.exceptions.FindElementException import FindElementException
+from src.main.code.util.InitUtil import InitUtil
+
+# 日志
+log = MyLogger.get_log()
 
 
 class SeleniumUtil:
@@ -12,6 +20,9 @@ class SeleniumUtil:
     """
 
     selenium_driver = None
+
+    # 初始化设置
+    setting = InitUtil.init_setting()
 
     @classmethod
     def get_driver(cls):
@@ -49,14 +60,82 @@ class SeleniumUtil:
         cls.selenium_driver.quit()
 
     @classmethod
-    def find_element(cls, by, value) -> WebElement:
-        return WebDriverWait(cls.selenium_driver, 10).until(lambda browser: browser.find_elements(by, value))
+    def find_element(cls, by: By, value: str) -> WebElement:
+        """
+        查找单个元素
+        :param by:  元素定位的方式
+        :param value:  需要查找的元素的路径
+        :return: 如果查找到的元素有多个,默认返回第一个
+        """
+        return cls.retry_find_and_do(by=by, path=value)[0]
 
+    @classmethod
+    def click_ele(cls, by: By, path: str):
+        """
+        点击元素
+        :param by:  元素定位的方式
+        :param path: 需要点击的元素的路径
+        """
+        cls.retry_find_and_do(by=by, path=path)[0].click()
 
-if __name__ == '__main__':
-    driver = SeleniumUtil.get_driver()
-    driver.get('https://www.baidu.com')
-    # element = WebDriverWait(driver, 10).until(lambda browser: browser.find_elements(By.ID, 'kw'))
-    elements = SeleniumUtil.find_element(By.ID, 'kw')
-    elements[0].send_keys('selenium')
-    SeleniumUtil.close_driver()
+    @classmethod
+    def retry_find_and_do(cls, **handle_dto):
+        """
+        重复查找和执行动作,会有重试机制
+        :param handle_dto: 需要有查找的方式by和查找的路径path
+        :return: 返回查找到的元素
+        """
+        attempts = 0
+        retry = cls.setting['retry']
+        by = handle_dto['by']
+        path = handle_dto['path']
+        while attempts <= retry:
+            try:
+                find_element = cls.__fluent_find(by, path)
+                if cls.pre_handle(find_element):
+                    cls.do_handle()
+                    return find_element
+            except Exception:
+                if attempts == retry:
+                    msg = f'查找{by}【{path}】时尝试{attempts}次仍然发生错误'
+                    MyLogger.except_info(msg)
+                    raise FindElementException(msg)
+                attempts = attempts + 1
+                log.warning('操作节点{}【{}】时,发生错误,重试第{}次', by, path, attempts)
+
+    @classmethod
+    def __fluent_find(cls, by: By, path: str) -> list:
+        """
+        使用显示的方式去查找元素
+        :param by:  元素定位的方式
+        :param path: 需要点击的元素的路径
+        :return: 返回查找到的元素
+        """
+        wait_ele = WebDriverWait(cls.selenium_driver, cls.setting['waitElement']).until(lambda browser: browser.find_elements(by, path))
+        log.info("元素:{},存在:{}", wait_ele, cls.is_find(wait_ele))
+        return wait_ele
+
+    @classmethod
+    def is_find(cls, elements: list) -> bool:
+        """
+        该元素是否可用
+        :param elements: 查找到的元素
+        :return: true表示可用
+        """
+        flag = False
+        for find_ele in elements:
+            flag = find_ele is not None and find_ele.is_displayed() and find_ele.is_enabled()
+        return flag
+
+    @classmethod
+    def send_keys(cls, by: By, path: str, text: str):
+        element = cls.find_element(by, path)
+        element.send_keys(text)
+
+    @classmethod
+    def pre_handle(cls, ele: list) -> bool:
+        return True
+
+    @classmethod
+    def do_handle(cls):
+        pass

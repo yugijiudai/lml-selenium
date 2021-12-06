@@ -1,6 +1,6 @@
 import os
 
-PROJECT_NAME = 'pythonSelenium'
+PROJECT_NAME = 'lml-selenium'
 
 
 class ResourceUtil:

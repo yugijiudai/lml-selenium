@@ -14,6 +14,7 @@ pyperclip = "*"
 xlrd = "*"
 pillow = "*"
 selenium-wire = "*"
+loguru = "*"
 opencv-python = {version = "*", index = "https://pypi.tuna.tsinghua.edu.cn/simple"}
 
 [dev-packages]
