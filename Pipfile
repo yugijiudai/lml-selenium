@@ -17,6 +17,7 @@ selenium-wire = "*"
 loguru = "*"
 opencv-python = {version = "*", index = "https://pypi.tuna.tsinghua.edu.cn/simple"}
 pydivert = "*"
+pandas = "*"
 [dev-packages]
 
 [requires]

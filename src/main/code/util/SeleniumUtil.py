@@ -1,6 +1,6 @@
 # Author : lml
 # Date : 2021/12/1
-
+import selenium
 from loguru import logger
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
@@ -31,7 +31,7 @@ class SeleniumUtil:
         """
         options = webdriver.ChromeOptions()
         # 浏览器不提供可视化页面
-        options.add_argument('--headless')
+        # options.add_argument('--headless')
         # 禁用扩展
         options.add_argument('disable-extensions')
         # 禁用阻止弹出窗口
@@ -70,7 +70,7 @@ class SeleniumUtil:
         return cls.retry_find_and_do(by=by, path=value)[0]
 
     @classmethod
-    def click_ele(cls, by: By, path: str):
+    def click_ele(cls, by: By, path: str) -> None:
         """
         点击元素
         :param by:  元素定位的方式
@@ -79,7 +79,7 @@ class SeleniumUtil:
         cls.retry_find_and_do(by=by, path=path)[0].click()
 
     @classmethod
-    def retry_find_and_do(cls, **handle_dto):
+    def retry_find_and_do(cls, **handle_dto) -> list:
         """
         重复查找和执行动作,会有重试机制
         :param handle_dto: 需要有查找的方式by和查找的路径path
@@ -128,9 +128,19 @@ class SeleniumUtil:
         return True
 
     @classmethod
-    def send_keys(cls, by: By, path: str, text: str):
+    def send_keys(cls, by: By, path: str, text: str) -> None:
         element = cls.find_element(by, path)
         element.send_keys(text)
+
+    @classmethod
+    def refresh(cls):
+        """刷新页面"""
+        cls.selenium_driver.refresh()
+
+    @classmethod
+    def click_alert(cls):
+        """点击alert弹窗"""
+        cls.selenium_driver.switch_to.alert.accept()
 
     @classmethod
     def pre_handle(cls, ele: list) -> bool:
