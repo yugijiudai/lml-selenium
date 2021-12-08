@@ -40,7 +40,6 @@ class ReflectUtil:
         index = source.find("def ")
         return [
             # line.strip().split()[0]
-            line.strip().split()[0][1:]
-            for line in source[:index].strip().splitlines()
-            if line.strip()[0] == "@"
+            # 如果包含@字符串就把他们全部拿出来拼接成一个list并且返回
+            line.strip().split()[0][1:] for line in source[:index].strip().splitlines() if line.strip()[0] == "@"
         ]
