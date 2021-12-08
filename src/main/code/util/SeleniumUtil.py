@@ -30,7 +30,7 @@ class SeleniumUtil:
         """
         options = webdriver.ChromeOptions()
         # 浏览器不提供可视化页面
-        # options.add_argument('--headless')
+        options.add_argument('--headless')
         # 禁用扩展
         options.add_argument('disable-extensions')
         # 禁用阻止弹出窗口
@@ -88,12 +88,14 @@ class SeleniumUtil:
         retry = cls.config['retry']
         by = handle_dto['by']
         path = handle_dto['path']
+        selenium_handler = handle_dto.get('handler')
         while attempts <= retry:
             try:
                 find_element = cls.__fluent_find(by, path)
-                if cls.pre_handle(find_element):
-                    cls.do_handle()
-                    return find_element
+                handle_dto = {"element": find_element, 'by': by}
+                if selenium_handler is not None and selenium_handler.pre_handle(handle_dto):
+                    selenium_handler.do_handle(handle_dto)
+                return find_element
             except Exception:
                 if attempts == retry:
                     msg = f'查找{by}【{path}】时尝试{attempts}次仍然发生错误'
@@ -140,11 +142,3 @@ class SeleniumUtil:
     def click_alert(cls):
         """点击alert弹窗"""
         cls.selenium_driver.switch_to.alert.accept()
-
-    @classmethod
-    def pre_handle(cls, ele: list) -> bool:
-        return True
-
-    @classmethod
-    def do_handle(cls):
-        pass
