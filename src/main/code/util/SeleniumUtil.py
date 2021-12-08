@@ -9,6 +9,7 @@ from seleniumwire import webdriver
 from src.main.code.config.GlobalConfig import GlobalConfig
 from src.main.code.config.Logger import MyLogger
 from src.main.code.exceptions.FindElementException import FindElementException
+from src.main.code.handler.SeleniumHandler import SeleniumHandler
 from src.main.code.util.JsUtil import JsUtil
 
 
@@ -93,7 +94,7 @@ class SeleniumUtil:
             try:
                 find_element = cls.__fluent_find(by, path)
                 handle_dto = {"element": find_element, 'by': by}
-                if selenium_handler is not None and selenium_handler.pre_handle(handle_dto):
+                if selenium_handler is not None and isinstance(selenium_handler, SeleniumHandler)  and selenium_handler.pre_handle(handle_dto):
                     selenium_handler.do_handle(handle_dto)
                 return find_element
             except Exception:
