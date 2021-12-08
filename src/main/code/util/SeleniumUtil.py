@@ -1,6 +1,5 @@
 # Author : lml
 # Date : 2021/12/1
-import selenium
 from loguru import logger
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement

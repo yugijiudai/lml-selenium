@@ -14,8 +14,8 @@ class GlobalConfig:
         """
         return {
             # chromeDriver位置
-            # "driverPath": "/Volumes/common/dev/driver/chromedriver",
-            "driverPath": "D:\\driver\\chromedriver.exe",
+            "driverPath": "/Volumes/common/dev/driver/chromedriver",
+            # "driverPath": "D:\\driver\\chromedriver.exe",
             # 查找元素的重试次数
             "retry": 2,
             #  查找元素的时候等待元素的时间(显示等待,单位秒)
@@ -30,3 +30,7 @@ class GlobalConfig:
 
     def test_me(self):
         return 'hi'
+
+    @classmethod
+    def test_clz(cls):
+        return '类方法'
