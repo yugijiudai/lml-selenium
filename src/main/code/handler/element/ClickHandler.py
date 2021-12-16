@@ -19,6 +19,16 @@ class ClickHandler(SeleniumHandler):
     # 需要动态判断点击方式的元素元祖
     TAG_NAMES_CLICK_BY_JS = ("button", "a", "span", "img", "li", "input")
 
+    def __init__(self) -> None:
+        # 初始化好对应的点击方法
+        self.do_click_func = {
+            ClickActionEnum.api: self.__api_click,
+            ClickActionEnum.js: self.__js_click,
+            ClickActionEnum.by_tag_type: self.__by_tag,
+            ClickActionEnum.right_click: self.__right_click,
+            ClickActionEnum.double_click: self.__double_click,
+        }
+
     def get_action(self):
         return ActionEnum.click
 
@@ -30,33 +40,20 @@ class ClickHandler(SeleniumHandler):
         logger.debug("click element attributes:{}", result)
         attribute = element.get_attribute('disabled')
         if not element.is_enabled() or 'true' == attribute:
-            logger.warning('元素[{}]不是Enable状态，不能点击', by)
+            logger.warning('[{}]元素[{}]不是Enable状态，不能点击', by, element)
             return False
         return True
 
     def do_handle(self, ele_handle_dto: dict) -> None:
+        """
+        处理点击事件
+        :param ele_handle_dto: element:定位到的元素,by:定位的方式,clickActionEnum:点击的类型
+        """
         element = ele_handle_dto['element'][0]
         by = ele_handle_dto['by']
-        click_action_enum = ele_handle_dto['clickActionEnum']
-        self.__click_ele(click_action_enum, element)
-        logger.debug("点击元素:[{}]成功", by)
-
-    def __click_ele(self, click_action_enum: ClickActionEnum, ele: WebElement) -> None:
-        """
-        点击元素
-        :param click_action_enum: 点击动作的枚举类
-        :param ele: 需要点击的元素
-        """
-        if click_action_enum == ClickActionEnum.api:
-            self.__api_click(ele)
-        elif click_action_enum == ClickActionEnum.js:
-            self.__js_click(ele)
-        elif click_action_enum == ClickActionEnum.by_tag_type:
-            self.__by_tag(ele)
-        elif click_action_enum == ClickActionEnum.right_click:
-            self.__right_click(ele)
-        elif click_action_enum == ClickActionEnum.double_click:
-            self.__double_click(ele)
+        click_action = ele_handle_dto['clickActionEnum']
+        self.do_click_func[click_action](element)
+        logger.debug("使用{}点击元素:[{}]成功", by, element)
 
     @staticmethod
     def __api_click(ele: WebElement) -> None:

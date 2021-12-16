@@ -18,7 +18,7 @@ class TestSeleniumUtil(TestCase):
         driver.get('https://www.baidu.com')
         SeleniumUtil.send_keys(By.ID, "kw", 'selenium')
         SeleniumUtil.retry_find_and_do(by=By.ID, path='su', handler=ClickHandler(), clickActionEnum=ClickActionEnum.by_tag_type)
-        JsUtil.wait_page_load()
+        # JsUtil.wait_page_load()
 
     def test_demo(self):
         driver = SeleniumUtil.get_driver()
