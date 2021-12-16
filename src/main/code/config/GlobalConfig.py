@@ -21,7 +21,9 @@ class GlobalConfig:
             #  查找元素的时候等待元素的时间(显示等待,单位秒)
             "waitElement": 1,
             # 等待页面加载的最长时间(显示等待,单位秒)
-            "pageLoad": 10
+            "pageLoad": 10,
+            # 是否打开浏览器
+            "useNoHead": False
         }
 
     def test_hi(self, name, hi):

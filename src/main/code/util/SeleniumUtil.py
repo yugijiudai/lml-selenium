@@ -30,8 +30,6 @@ class SeleniumUtil:
         :return: 初始化好的驱动
         """
         options = webdriver.ChromeOptions()
-        # 浏览器不提供可视化页面
-        options.add_argument('--headless')
         # 禁用扩展
         options.add_argument('disable-extensions')
         # 禁用阻止弹出窗口
@@ -41,6 +39,9 @@ class SeleniumUtil:
             'credentials_enable_service': False,
             'profile.password_manager_enabled': False
         })
+        if cls.config['useNoHead']:
+            # 浏览器不提供可视化页面
+            options.add_argument('--headless')
         cls.selenium_driver = webdriver.Chrome(chrome_options=options, executable_path=cls.config['driverPath'])
         # 初始化js工具类的驱动
         JsUtil.init_driver(cls.selenium_driver)
@@ -93,9 +94,9 @@ class SeleniumUtil:
         while attempts <= retry:
             try:
                 find_element = cls.__fluent_find(by, path)
-                handle_dto = {"element": find_element, 'by': by}
-                if selenium_handler is not None and isinstance(selenium_handler, SeleniumHandler)  and selenium_handler.pre_handle(handle_dto):
-                    selenium_handler.do_handle(handle_dto)
+                ele_handle_dto = {"element": find_element, 'by': by, 'clickActionEnum': handle_dto.get('clickActionEnum')}
+                if selenium_handler is not None and isinstance(selenium_handler, SeleniumHandler) and selenium_handler.pre_handle(ele_handle_dto):
+                    selenium_handler.do_handle(ele_handle_dto)
                 return find_element
             except Exception:
                 if attempts == retry:
