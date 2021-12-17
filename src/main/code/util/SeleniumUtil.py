@@ -58,7 +58,8 @@ class SeleniumUtil:
         """
         关闭driver
         """
-        cls.selenium_driver.quit()
+        if cls.selenium_driver is not None:
+            cls.selenium_driver.quit()
 
     @classmethod
     def find_element(cls, by: By, value: str) -> WebElement:
@@ -94,7 +95,7 @@ class SeleniumUtil:
         while attempts <= retry:
             try:
                 find_element = cls.__fluent_find(by, path)
-                ele_handle_dto = {"element": find_element, 'by': by, 'clickActionEnum': handle_dto.get('clickActionEnum')}
+                ele_handle_dto = {"element": find_element, 'by': by, 'clickActionEnum': handle_dto.get('clickActionEnum'), "keys": handle_dto.get('keys')}
                 if selenium_handler is not None and isinstance(selenium_handler, SeleniumHandler) and selenium_handler.pre_handle(ele_handle_dto):
                     selenium_handler.do_handle(ele_handle_dto)
                 return find_element

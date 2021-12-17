@@ -8,6 +8,7 @@ from src.main.code.enums.ActionEnum import ActionEnum
 from src.main.code.enums.ClickActionEnum import ClickActionEnum
 from src.main.code.handler.SeleniumHandler import SeleniumHandler
 from src.main.code.util.JsUtil import JsUtil
+from src.main.code.util.JsonUtil import JsonUtil
 from src.main.code.util.SeleniumUtil import SeleniumUtil
 
 
@@ -51,7 +52,7 @@ class ClickHandler(SeleniumHandler):
         """
         element = ele_handle_dto['element'][0]
         by = ele_handle_dto['by']
-        click_action = ele_handle_dto['clickActionEnum']
+        click_action = JsonUtil.get_default(ele_handle_dto, 'clickActionEnum', ClickActionEnum.by_tag_type)
         self.do_click_func[click_action](element)
         logger.debug("使用{}点击元素:[{}]成功", by, element)
 

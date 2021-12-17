@@ -14,7 +14,7 @@ class SeleniumHandler:
         """
         pass
 
-    def do_handle(self, ele_handle_dto: dict)-> None:
+    def do_handle(self, ele_handle_dto: dict) -> None:
         pass
 
     def pre_handle(self, ele_handle_dto: dict) -> bool:

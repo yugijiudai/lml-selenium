@@ -35,3 +35,14 @@ class JsonUtil:
         val = source.get(pro)
         if val is not None:
             target[pro] = val
+
+    @staticmethod
+    def get_default(dict_obj: dict, key: str, default_val):
+        """
+        根据key来获取dict的value,如果key为空,则获取默认的值
+        :param dict_obj: 对应的dict
+        :param key: dict的key
+        :param default_val: 如果key不存在,则默认获取的值
+        :return: 对应的value
+        """
+        return dict_obj[key] if dict_obj.get(key) is not None else default_val
