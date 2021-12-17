@@ -17,7 +17,7 @@ class GetTextHandler(SeleniumHandler):
     def do_handle(self, ele_handle_dto: dict) -> None:
         element = ele_handle_dto['element'][0]
         by = ele_handle_dto['by']
-        logger.info("查找文本:【{}】{}", by, element)
+        logger.info("使用{}查找文本:【{}】{}", by, element.get_attribute('innerText'), element)
 
     def pre_handle(self, ele_handle_dto: dict) -> bool:
         return True
