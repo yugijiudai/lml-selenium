@@ -29,7 +29,6 @@ class ActionEnum(Enum):
     # 切换iframe
     switchToFrame = True
 
-
     # 点击alert
     alert = False
 
