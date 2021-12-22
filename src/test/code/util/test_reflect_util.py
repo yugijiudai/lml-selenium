@@ -14,4 +14,4 @@ class TestReflectUtil(TestCase):
         print(ReflectUtil.run_clz_method(className='GlobalConfig', model='src.main.code.config.GlobalConfig', methodName='get_config', args=[]))
 
     def test_gen_cls(self):
-        ClassGeneratorUtil.generate_cls("UserEntity", f'{ResourceUtil.get_root_path()}/src/main/code/util/UserEntity.py', params=["name", "pwd", "address"])
+        ClassGeneratorUtil.generate_cls("HandleDto", f'{ResourceUtil.get_root_path()}/src/main/code/dto/HandleDto.py', params=["name", "pwd", "address"])
