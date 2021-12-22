@@ -84,7 +84,7 @@ class SeleniumUtil:
     def retry_find_and_do(cls, **handle_dto) -> list:
         """
         重复查找和执行动作,会有重试机制
-        :param handle_dto: 需要有查找的方式by和查找的路径path
+        :param handle_dto: 需要有查找的方式by和查找的路径path等属性
         :return: 返回查找到的元素
         """
         attempts = 0
@@ -95,7 +95,7 @@ class SeleniumUtil:
         while attempts <= retry:
             try:
                 find_element = cls.__fluent_find(by, path)
-                ele_handle_dto = {"element": find_element, 'by': by, 'clickActionEnum': handle_dto.get('clickActionEnum'), "keys": handle_dto.get('keys')}
+                ele_handle_dto = cls.__build_ele_handle_dto(find_element, handle_dto)
                 if selenium_handler is not None and isinstance(selenium_handler, SeleniumHandler) and selenium_handler.pre_handle(ele_handle_dto):
                     selenium_handler.do_handle(ele_handle_dto)
                 return find_element
@@ -106,6 +106,21 @@ class SeleniumUtil:
                     raise FindElementException(msg)
                 attempts = attempts + 1
                 logger.warning('操作节点{}【{}】时,发生错误,重试第{}次', by, path, attempts)
+
+    @classmethod
+    def __build_ele_handle_dto(cls, find_element: list, handle_dto: dict) -> dict:
+        """
+        构建eleHandleDto
+        :param find_element: 查找到的元素列表
+        :param handle_dto: 处理的传输类,需要有by,clickActionEnum,keys等元素
+        :return: 返回构件好的dto
+        """
+        return {
+            "element": find_element,
+            'by': handle_dto['by'],
+            'clickActionEnum': handle_dto.get('clickActionEnum'),
+            "keys": handle_dto.get('keys')
+        }
 
     @classmethod
     def __fluent_find(cls, by: By, path: str) -> list:

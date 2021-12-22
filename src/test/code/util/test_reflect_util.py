@@ -1,6 +1,8 @@
 from unittest import TestCase
 
+from src.main.code.util.ClassGeneratorUtil import ClassGeneratorUtil
 from src.main.code.util.ReflectUtil import ReflectUtil
+from src.main.code.util.ResourceUtil import ResourceUtil
 
 
 class TestReflectUtil(TestCase):
@@ -10,3 +12,6 @@ class TestReflectUtil(TestCase):
         ReflectUtil.run_clz_method(**param)
         print(ReflectUtil.run_clz_method(className='GlobalConfig', model='src.main.code.config.GlobalConfig', methodName='test_clz', args=[]))
         print(ReflectUtil.run_clz_method(className='GlobalConfig', model='src.main.code.config.GlobalConfig', methodName='get_config', args=[]))
+
+    def test_gen_cls(self):
+        ClassGeneratorUtil.generate_cls("UserEntity", f'{ResourceUtil.get_root_path()}/src/main/code/util/UserEntity.py', params=["name", "pwd", "address"])
