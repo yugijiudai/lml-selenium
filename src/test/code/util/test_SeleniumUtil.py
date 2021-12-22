@@ -21,9 +21,8 @@ class TestSeleniumUtil(TestCase):
         SeleniumUtil.retry_find_and_do(by=By.ID, path='su', handler=ClickHandler(), clickActionEnum=ClickActionEnum.by_tag_type)
         JsUtil.wait_page_load()
 
-
     def test_get_driver2(self):
-        hello ={'name': 'ss'}
+        hello = {'name': 'ss'}
         name = 'hi' if hello.get("name") is None else hello.get("name")
         print(name)
         # driver = SeleniumUtil.get_driver()

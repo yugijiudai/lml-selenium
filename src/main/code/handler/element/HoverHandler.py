@@ -15,9 +15,9 @@ class HoverHandler(SeleniumHandler):
     def get_action(self) -> ActionEnum:
         return ActionEnum.hover
 
-    def do_handle(self, ele_handle_dto: dict) -> None:
-        element = ele_handle_dto['element'][0]
+    def do_handle(self, ele_handle_dto) -> None:
+        element = ele_handle_dto.elements[0]
         ActionChains(SeleniumUtil.selenium_driver).move_to_element(element).perform()
 
-    def pre_handle(self, ele_handle_dto: dict) -> bool:
+    def pre_handle(self, ele_handle_dto) -> bool:
         return True

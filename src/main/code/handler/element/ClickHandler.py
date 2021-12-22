@@ -8,7 +8,6 @@ from src.main.code.enums.ActionEnum import ActionEnum
 from src.main.code.enums.ClickActionEnum import ClickActionEnum
 from src.main.code.handler.SeleniumHandler import SeleniumHandler
 from src.main.code.util.JsUtil import JsUtil
-from src.main.code.util.JsonUtil import JsonUtil
 from src.main.code.util.SeleniumUtil import SeleniumUtil
 
 
@@ -33,9 +32,9 @@ class ClickHandler(SeleniumHandler):
     def get_action(self):
         return ActionEnum.click
 
-    def pre_handle(self, ele_handle_dto: dict) -> bool:
-        element = ele_handle_dto['element'][0]
-        by = ele_handle_dto['by']
+    def pre_handle(self, ele_handle_dto) -> bool:
+        element = ele_handle_dto.elements[0]
+        by = ele_handle_dto.by
         script = "var items = {}; for (index = 0; index < arguments[0].attributes.length; ++index) { items[arguments[0].attributes[index].name] = arguments[0].attributes[index].value }; return items;"
         result = JsUtil.run_js_with_param(script, element)
         logger.debug("click element attributes:{}", result)
@@ -45,14 +44,14 @@ class ClickHandler(SeleniumHandler):
             return False
         return True
 
-    def do_handle(self, ele_handle_dto: dict) -> None:
+    def do_handle(self, ele_handle_dto) -> None:
         """
         处理点击事件
         :param ele_handle_dto: element:定位到的元素,by:定位的方式,clickActionEnum:点击的类型
         """
-        element = ele_handle_dto['element'][0]
-        by = ele_handle_dto['by']
-        click_action = JsonUtil.get_default(ele_handle_dto, 'clickActionEnum', ClickActionEnum.by_tag_type)
+        element = ele_handle_dto.elements[0]
+        by = ele_handle_dto.by
+        click_action = ele_handle_dto.click_action
         self.do_click_func[click_action](element)
         logger.debug("使用{}点击元素:[{}]成功", by, element)
 

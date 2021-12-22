@@ -8,6 +8,7 @@ from seleniumwire import webdriver
 
 from src.main.code.config.GlobalConfig import GlobalConfig
 from src.main.code.config.Logger import MyLogger
+from src.main.code.dto.EleHandleDto import EleHandleDto
 from src.main.code.exceptions.FindElementException import FindElementException
 from src.main.code.handler.SeleniumHandler import SeleniumHandler
 from src.main.code.util.JsUtil import JsUtil
@@ -108,19 +109,19 @@ class SeleniumUtil:
                 logger.warning('操作节点{}【{}】时,发生错误,重试第{}次', by, path, attempts)
 
     @classmethod
-    def __build_ele_handle_dto(cls, find_element: list, handle_dto: dict) -> dict:
+    def __build_ele_handle_dto(cls, find_element: list, handle_dto: dict) -> EleHandleDto:
         """
         构建eleHandleDto
         :param find_element: 查找到的元素列表
         :param handle_dto: 处理的传输类,需要有by,clickActionEnum,keys等元素
         :return: 返回构件好的dto
         """
-        return {
-            "element": find_element,
-            'by': handle_dto['by'],
-            'clickActionEnum': handle_dto.get('clickActionEnum'),
-            "keys": handle_dto.get('keys')
-        }
+        dto = EleHandleDto()
+        dto.elements = find_element
+        dto.by = handle_dto['by']
+        dto.click_action = handle_dto.get('clickActionEnum')
+        dto.keys = handle_dto.get('keys')
+        return dto
 
     @classmethod
     def __fluent_find(cls, by: By, path: str) -> list:
