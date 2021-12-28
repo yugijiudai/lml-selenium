@@ -3,10 +3,10 @@
 from loguru import logger
 
 from src.main.code.enums.ActionEnum import ActionEnum
-from src.main.code.handler.SeleniumHandler import SeleniumHandler
+from src.main.code.handler.element.ElementHandler import ElementHandler
 
 
-class GetTextHandler(SeleniumHandler):
+class GetTextHandler(ElementHandler):
     """
     查找文本处理器
     """

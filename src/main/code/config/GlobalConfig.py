@@ -22,6 +22,8 @@ class GlobalConfig:
             "waitElement": 1,
             # 等待页面加载的最长时间(显示等待,单位秒)
             "pageLoad": 10,
+            # 强制等待时间(单位秒)
+            "waitTime": 0.5,
             # 是否打开浏览器
             "useNoHead": True
         }

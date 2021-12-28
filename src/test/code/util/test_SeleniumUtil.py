@@ -8,6 +8,9 @@ from selenium.webdriver.common.by import By
 from src.main.code.enums.ClickActionEnum import ClickActionEnum
 from src.main.code.handler.element.ClickHandler import ClickHandler
 from src.main.code.handler.element.SendKeyHandler import SendKeyHandler
+from src.main.code.handler.other.AlertHandler import AlertHandler
+from src.main.code.handler.other.RefreshHandler import RefreshHandler
+from src.main.code.handler.other.RunMethodHandler import RunMethodHandler
 from src.main.code.util.JsUtil import JsUtil
 from src.main.code.util.SeleniumUtil import SeleniumUtil
 
@@ -17,9 +20,15 @@ class TestSeleniumUtil(TestCase):
     def test_get_driver(self):
         driver = SeleniumUtil.get_driver()
         driver.get('https://www.baidu.com')
+        JsUtil.run_js('alert(111)')
+        SeleniumUtil.retry_find_and_do(handler=AlertHandler())
+        SeleniumUtil.retry_find_and_do(by=By.ID, path='kw', handler=SendKeyHandler(), keys="selenium")
+        SeleniumUtil.retry_find_and_do(handler=RefreshHandler())
         SeleniumUtil.retry_find_and_do(by=By.ID, path='kw', handler=SendKeyHandler(), keys="selenium")
         SeleniumUtil.retry_find_and_do(by=By.ID, path='su', handler=ClickHandler(), clickActionEnum=ClickActionEnum.by_tag_type)
         JsUtil.wait_page_load()
+        SeleniumUtil.retry_find_and_do(handler=RunMethodHandler(), ext={'className': 'GlobalConfig', 'model': 'src.main.code.config.GlobalConfig',
+                                                                        'methodName': 'test_hi', 'args': ['名字', '呵呵']})
 
     def test_get_driver2(self):
         hello = {'name': 'ss'}

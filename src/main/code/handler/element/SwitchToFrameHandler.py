@@ -5,11 +5,11 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 from src.main.code.enums.ActionEnum import ActionEnum
-from src.main.code.handler.SeleniumHandler import SeleniumHandler
+from src.main.code.handler.element.ElementHandler import ElementHandler
 from src.main.code.util.SeleniumUtil import SeleniumUtil
 
 
-class SwitchToFrameHandler(SeleniumHandler):
+class SwitchToFrameHandler(ElementHandler):
     """
     切换frame处理器
     """

@@ -3,11 +3,11 @@
 from selenium.webdriver import ActionChains
 
 from src.main.code.enums.ActionEnum import ActionEnum
-from src.main.code.handler.SeleniumHandler import SeleniumHandler
+from src.main.code.handler.element.ElementHandler import ElementHandler
 from src.main.code.util.SeleniumUtil import SeleniumUtil
 
 
-class HoverHandler(SeleniumHandler):
+class HoverHandler(ElementHandler):
     """
     鼠标停留处理器
     """

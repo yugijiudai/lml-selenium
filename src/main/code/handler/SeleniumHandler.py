@@ -2,7 +2,7 @@
 # Date : 2021/12/8
 import abc
 
-from src.main.code.dto.EleHandleDto import EleHandleDto
+from src.main.code.dto.HandleDto import HandleDto
 from src.main.code.enums.ActionEnum import ActionEnum
 
 
@@ -19,9 +19,9 @@ class SeleniumHandler:
         pass
 
     @abc.abstractmethod
-    def do_handle(self, ele_handle_dto: EleHandleDto) -> None:
+    def do_handle(self, handle_dto: HandleDto) -> None:
         pass
 
     @abc.abstractmethod
-    def pre_handle(self, ele_handle_dto: EleHandleDto) -> bool:
+    def pre_handle(self, handle_dto: HandleDto) -> bool:
         pass

@@ -1,10 +1,10 @@
 # Author : lml
 # Date : 2021/12/17
 from src.main.code.enums.ActionEnum import ActionEnum
-from src.main.code.handler.SeleniumHandler import SeleniumHandler
+from src.main.code.handler.element.ElementHandler import ElementHandler
 
 
-class SendKeyHandler(SeleniumHandler):
+class SendKeyHandler(ElementHandler):
     """
     输入框发送文本的处理器
     """
@@ -21,4 +21,3 @@ class SendKeyHandler(SeleniumHandler):
 
     def pre_handle(self, ele_handle_dto) -> bool:
         return True
-

@@ -1,5 +1,7 @@
 # Author : lml
 # Date : 2021/12/1
+from time import sleep
+
 from loguru import logger
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
@@ -9,6 +11,8 @@ from seleniumwire import webdriver
 from src.main.code.config.GlobalConfig import GlobalConfig
 from src.main.code.config.Logger import MyLogger
 from src.main.code.dto.EleHandleDto import EleHandleDto
+from src.main.code.dto.HandleDto import HandleDto
+from src.main.code.dto.NoEleHandleDto import NoEleHandleDto
 from src.main.code.exceptions.FindElementException import FindElementException
 from src.main.code.handler.SeleniumHandler import SeleniumHandler
 from src.main.code.util.JsUtil import JsUtil
@@ -90,16 +94,19 @@ class SeleniumUtil:
         """
         attempts = 0
         retry = cls.config['retry']
-        by = handle_dto['by']
-        path = handle_dto['path']
+        by = handle_dto.get('by')
+        path = handle_dto.get('path')
         selenium_handler = handle_dto.get('handler')
         while attempts <= retry:
             try:
-                find_element = cls.__fluent_find(by, path)
-                ele_handle_dto = cls.__build_ele_handle_dto(find_element, handle_dto)
-                if selenium_handler is not None and isinstance(selenium_handler, SeleniumHandler) and selenium_handler.pre_handle(ele_handle_dto):
-                    selenium_handler.do_handle(ele_handle_dto)
-                return find_element
+                if selenium_handler is None:
+                    return cls.__fluent_find(by, path)
+                handler_dto = cls.__build_handle_dto(handle_dto)
+                if isinstance(selenium_handler, SeleniumHandler) and selenium_handler.pre_handle(handler_dto):
+                    selenium_handler.do_handle(handler_dto)
+                if isinstance(handler_dto, EleHandleDto) is False:
+                    break
+                return handler_dto.elements
             except Exception:
                 if attempts == retry:
                     msg = f'查找{by}【{path}】时尝试{attempts}次仍然发生错误'
@@ -109,19 +116,26 @@ class SeleniumUtil:
                 logger.warning('操作节点{}【{}】时,发生错误,重试第{}次', by, path, attempts)
 
     @classmethod
-    def __build_ele_handle_dto(cls, find_element: list, handle_dto: dict) -> EleHandleDto:
+    def __build_handle_dto(cls, handle_dto: dict) -> HandleDto:
         """
         构建eleHandleDto
-        :param find_element: 查找到的元素列表
         :param handle_dto: 处理的传输类,需要有by,clickActionEnum,keys等元素
         :return: 返回构件好的dto
         """
-        dto = EleHandleDto()
-        dto.elements = find_element
-        dto.by = handle_dto['by']
-        dto.click_action = handle_dto.get('clickActionEnum')
-        dto.keys = handle_dto.get('keys')
-        return dto
+        selenium_handler = handle_dto['handler']
+        action_enum = selenium_handler.get_action()
+        # 判断是否需要查找节点
+        if action_enum.value is True:
+            dto = EleHandleDto()
+            dto.by = handle_dto['by']
+            dto.elements = cls.__fluent_find(dto.by, handle_dto['path'])
+            dto.click_action = handle_dto.get('clickActionEnum')
+            dto.keys = handle_dto.get('keys')
+            return dto
+        no_ele = NoEleHandleDto()
+        no_ele.wait_time = handle_dto.get('wait_time')
+        no_ele.ext = handle_dto.get('ext')
+        return no_ele
 
     @classmethod
     def __fluent_find(cls, by: By, path: str) -> list:
@@ -161,3 +175,11 @@ class SeleniumUtil:
     def click_alert(cls):
         """点击alert弹窗"""
         cls.selenium_driver.switch_to.alert.accept()
+
+    @staticmethod
+    def do_wait(time=config['waitTime']) -> None:
+        """
+        强制等待
+        :param time: 单位秒
+        """
+        sleep(time)

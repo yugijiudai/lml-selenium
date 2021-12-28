@@ -1,9 +1,10 @@
+from src.main.code.dto.HandleDto import HandleDto
 from src.main.code.enums.ClickActionEnum import ClickActionEnum
 
 
-class EleHandleDto:
+class EleHandleDto(HandleDto):
     """
-    handler的dto类
+    需要查找元素的dto
     """
 
     __slots__ = ('__elements', '__by', '__clickActionEnum', '__keys')
