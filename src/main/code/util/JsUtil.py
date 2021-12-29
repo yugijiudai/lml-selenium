@@ -3,6 +3,7 @@
 # @File     :JsUtil.py
 from loguru import logger
 from selenium.webdriver.support.wait import WebDriverWait
+from seleniumwire import webdriver
 
 from src.main.code.config.GlobalConfig import GlobalConfig
 from src.main.code.exceptions.InitException import InitException
@@ -21,7 +22,7 @@ class JsUtil:
         raise InitException("该类不允许初始化")
 
     @classmethod
-    def init_driver(cls, driver):
+    def init_driver(cls, driver: webdriver):
         """
         初始化工具类的驱动
         """

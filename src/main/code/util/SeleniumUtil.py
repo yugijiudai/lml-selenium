@@ -6,7 +6,6 @@ from loguru import logger
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
-from seleniumwire import webdriver
 
 from src.main.code.config.GlobalConfig import GlobalConfig
 from src.main.code.config.Logger import MyLogger
@@ -16,15 +15,13 @@ from src.main.code.dto.NoEleHandleDto import NoEleHandleDto
 from src.main.code.exceptions.FindElementException import FindElementException
 from src.main.code.exceptions.InitException import InitException
 from src.main.code.handler.SeleniumHandler import SeleniumHandler
-from src.main.code.util.JsUtil import JsUtil
+from src.main.code.util.InitUtil import InitUtil
 
 
 class SeleniumUtil:
     """
     selenium工具类
     """
-
-    selenium_driver = None
 
     # 初始化设置
     __config = GlobalConfig.get_config()
@@ -33,28 +30,12 @@ class SeleniumUtil:
         raise InitException("该类不允许初始化")
 
     @classmethod
-    def get_driver(cls):
+    def get_url(cls, url) -> None:
         """
-        初始化selenium的驱动并且返回
-        :return: 初始化好的驱动
+        打开对应的url
+        :param url: 要打开的地址
         """
-        options = webdriver.ChromeOptions()
-        # 禁用扩展
-        options.add_argument('disable-extensions')
-        # 禁用阻止弹出窗口
-        options.add_argument('--disable-popup-blocking')
-        # 设置这两个参数就可以避免密码提示框的弹出
-        options.add_experimental_option('prefs', {
-            'credentials_enable_service': False,
-            'profile.password_manager_enabled': False
-        })
-        if cls.__config['useNoHead']:
-            # 浏览器不提供可视化页面
-            options.add_argument('--headless')
-        cls.selenium_driver = webdriver.Chrome(chrome_options=options, executable_path=cls.__config['driverPath'])
-        # 初始化js工具类的驱动
-        JsUtil.init_driver(cls.selenium_driver)
-        return cls.selenium_driver
+        InitUtil.get_driver().get(url)
 
     @staticmethod
     def get_request_msg(web_driver):
@@ -67,8 +48,8 @@ class SeleniumUtil:
         """
         关闭driver
         """
-        if cls.selenium_driver is not None:
-            cls.selenium_driver.quit()
+        if InitUtil.get_driver() is not None:
+            InitUtil.get_driver().quit()
 
     @classmethod
     def find_element(cls, by: By, value: str) -> WebElement:
@@ -149,7 +130,7 @@ class SeleniumUtil:
         :param path: 需要点击的元素的路径
         :return: 返回查找到的元素
         """
-        wait_ele = WebDriverWait(cls.selenium_driver, cls.__config['waitElement']).until(lambda browser: browser.find_elements(by, path))
+        wait_ele = WebDriverWait(InitUtil.get_driver(), cls.__config['waitElement']).until(lambda browser: browser.find_elements(by, path))
         logger.info("元素:{},存在:{}", wait_ele, cls.is_find(wait_ele))
         return wait_ele
 
@@ -173,12 +154,12 @@ class SeleniumUtil:
     @classmethod
     def refresh(cls):
         """刷新页面"""
-        cls.selenium_driver.refresh()
+        InitUtil.get_driver().refresh()
 
     @classmethod
     def click_alert(cls):
         """点击alert弹窗"""
-        cls.selenium_driver.switch_to.alert.accept()
+        InitUtil.get_driver().switch_to.alert.accept()
 
     @staticmethod
     def do_wait(time=__config['waitTime']) -> None:

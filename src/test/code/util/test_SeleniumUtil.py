@@ -11,6 +11,7 @@ from src.main.code.handler.element.SendKeyHandler import SendKeyHandler
 from src.main.code.handler.other.AlertHandler import AlertHandler
 from src.main.code.handler.other.RefreshHandler import RefreshHandler
 from src.main.code.handler.other.RunMethodHandler import RunMethodHandler
+from src.main.code.util.InitUtil import InitUtil
 from src.main.code.util.JsUtil import JsUtil
 from src.main.code.util.SeleniumUtil import SeleniumUtil
 
@@ -18,8 +19,8 @@ from src.main.code.util.SeleniumUtil import SeleniumUtil
 class TestSeleniumUtil(TestCase):
 
     def test_get_driver(self):
-        driver = SeleniumUtil.get_driver()
-        driver.get('https://www.baidu.com')
+        InitUtil.init_driver()
+        SeleniumUtil.get_url('https://www.baidu.com')
         JsUtil.run_js('alert(111)')
         SeleniumUtil.retry_find_and_do(handler=AlertHandler())
         SeleniumUtil.retry_find_and_do(by=By.ID, path='kw', handler=SendKeyHandler(), keys="selenium")
@@ -41,8 +42,8 @@ class TestSeleniumUtil(TestCase):
         # JsUtil.wait_page_load()
 
     def test_demo(self):
-        driver = SeleniumUtil.get_driver()
-        driver.get('https://www.baidu.com')
+        InitUtil.init_driver()
+        SeleniumUtil.get_url('https://www.baidu.com')
         JsUtil.run_js('alert(111)')
         SeleniumUtil.click_alert()
         SeleniumUtil.send_keys(By.ID, "kw", 'selenium')
@@ -54,4 +55,4 @@ class TestSeleniumUtil(TestCase):
         SeleniumUtil.click_ele(by=By.ID, path='su')
 
     def tearDown(self):
-        SeleniumUtil.close_driver()
+        InitUtil.close_driver()

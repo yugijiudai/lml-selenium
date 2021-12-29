@@ -7,8 +7,8 @@ from selenium.webdriver.remote.webelement import WebElement
 from src.main.code.enums.ActionEnum import ActionEnum
 from src.main.code.enums.ClickActionEnum import ClickActionEnum
 from src.main.code.handler.element.ElementHandler import ElementHandler
+from src.main.code.util.InitUtil import InitUtil
 from src.main.code.util.JsUtil import JsUtil
-from src.main.code.util.SeleniumUtil import SeleniumUtil
 
 
 class ClickHandler(ElementHandler):
@@ -78,8 +78,8 @@ class ClickHandler(ElementHandler):
 
     @staticmethod
     def __right_click(ele: WebElement) -> None:
-        ActionChains(SeleniumUtil.selenium_driver).context_click(ele).perform()
+        ActionChains(InitUtil.get_driver()).context_click(ele).perform()
 
     @staticmethod
     def __double_click(ele: WebElement) -> None:
-        ActionChains(SeleniumUtil.selenium_driver).double_click(ele).perform()
+        ActionChains(InitUtil.get_driver()).double_click(ele).perform()
