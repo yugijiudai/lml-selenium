@@ -4,11 +4,16 @@
 import importlib
 import inspect
 
+from src.main.code.exceptions.InitException import InitException
+
 
 class ReflectUtil:
     """
     反射工具类
     """
+
+    def __init__(self) -> None:
+        raise InitException("该类不允许初始化")
 
     @classmethod
     def run_clz_method(cls, **config):

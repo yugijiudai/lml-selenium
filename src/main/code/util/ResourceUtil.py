@@ -1,5 +1,7 @@
 import os
 
+from src.main.code.exceptions.InitException import InitException
+
 PROJECT_NAME = 'lml-selenium'
 
 
@@ -7,6 +9,9 @@ class ResourceUtil:
     """
     资源的工具类
     """
+
+    def __init__(self) -> None:
+        raise InitException("该类不允许初始化")
 
     @staticmethod
     def get_resource_path(path: str) -> str:

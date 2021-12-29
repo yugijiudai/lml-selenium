@@ -14,6 +14,7 @@ from src.main.code.dto.EleHandleDto import EleHandleDto
 from src.main.code.dto.HandleDto import HandleDto
 from src.main.code.dto.NoEleHandleDto import NoEleHandleDto
 from src.main.code.exceptions.FindElementException import FindElementException
+from src.main.code.exceptions.InitException import InitException
 from src.main.code.handler.SeleniumHandler import SeleniumHandler
 from src.main.code.util.JsUtil import JsUtil
 
@@ -26,7 +27,10 @@ class SeleniumUtil:
     selenium_driver = None
 
     # 初始化设置
-    config = GlobalConfig.get_config()
+    __config = GlobalConfig.get_config()
+
+    def __init__(self) -> None:
+        raise InitException("该类不允许初始化")
 
     @classmethod
     def get_driver(cls):
@@ -44,10 +48,10 @@ class SeleniumUtil:
             'credentials_enable_service': False,
             'profile.password_manager_enabled': False
         })
-        if cls.config['useNoHead']:
+        if cls.__config['useNoHead']:
             # 浏览器不提供可视化页面
             options.add_argument('--headless')
-        cls.selenium_driver = webdriver.Chrome(chrome_options=options, executable_path=cls.config['driverPath'])
+        cls.selenium_driver = webdriver.Chrome(chrome_options=options, executable_path=cls.__config['driverPath'])
         # 初始化js工具类的驱动
         JsUtil.init_driver(cls.selenium_driver)
         return cls.selenium_driver
@@ -93,7 +97,7 @@ class SeleniumUtil:
         :return: 返回查找到的元素
         """
         attempts = 0
-        retry = cls.config['retry']
+        retry = cls.__config['retry']
         by = handle_dto.get('by')
         path = handle_dto.get('path')
         selenium_handler = handle_dto.get('handler')
@@ -145,7 +149,7 @@ class SeleniumUtil:
         :param path: 需要点击的元素的路径
         :return: 返回查找到的元素
         """
-        wait_ele = WebDriverWait(cls.selenium_driver, cls.config['waitElement']).until(lambda browser: browser.find_elements(by, path))
+        wait_ele = WebDriverWait(cls.selenium_driver, cls.__config['waitElement']).until(lambda browser: browser.find_elements(by, path))
         logger.info("元素:{},存在:{}", wait_ele, cls.is_find(wait_ele))
         return wait_ele
 
@@ -177,7 +181,7 @@ class SeleniumUtil:
         cls.selenium_driver.switch_to.alert.accept()
 
     @staticmethod
-    def do_wait(time=config['waitTime']) -> None:
+    def do_wait(time=__config['waitTime']) -> None:
         """
         强制等待
         :param time: 单位秒

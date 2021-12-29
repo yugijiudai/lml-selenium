@@ -9,6 +9,7 @@ import sys
 
 from loguru import logger
 
+from src.main.code.exceptions.InitException import InitException
 from src.main.code.util.ResourceUtil import ResourceUtil
 
 
@@ -30,6 +31,9 @@ class MyLogger:
     """
     日志配置
     """
+
+    def __init__(self) -> None:
+        raise InitException("该类不允许初始化")
 
     # 异常信息打印
     @staticmethod

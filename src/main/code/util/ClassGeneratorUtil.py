@@ -1,8 +1,12 @@
 # Author : lml
 # Date : 2021/12/22
+from src.main.code.exceptions.InitException import InitException
 
 
 class ClassGeneratorUtil:
+
+    def __init__(self) -> None:
+        raise InitException("该类不允许初始化")
 
     @staticmethod
     def generate_cls(clz, filepath, params=None) -> None:
