@@ -20,8 +20,6 @@ class ActionEnum(Enum):
     # 鼠标悬浮
     hover = True
 
-    # 获取文本内容
-    getText = True
 
     # 清空输入栏
     clear = True

@@ -27,14 +27,3 @@ class GlobalConfig:
             # 是否打开浏览器
             "useNoHead": True
         }
-
-    def test_hi(self, name, hi):
-        print(name)
-        print(hi)
-
-    def test_me(self):
-        return 'hi'
-
-    @classmethod
-    def test_clz(cls):
-        return '类方法'

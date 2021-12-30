@@ -19,6 +19,15 @@ class RunMethodHandler(NoElementHandler):
         return ActionEnum.runMethod
 
     def do_handle(self, handle_dto) -> None:
+        """
+        ext的格式如下:
+        {
+            'className': 'GlobalConfig', 类名
+            'model': 'src.main.code.config.GlobalConfig', 对应的py文件全路径
+            'methodName': 'test_hi', 需要调用的方法名
+            'args': ['名字', '呵呵'] 这个方法需要用到的参数
+        }
+        """
         ext = handle_dto.ext
         run_method_obj = JsonUtil.str_to_json(ext)
         ReflectUtil.run_clz_method(**run_method_obj)

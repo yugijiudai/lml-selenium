@@ -1,7 +1,6 @@
 from unittest import TestCase
 
 from src.main.code.util.ClassGeneratorUtil import ClassGeneratorUtil
-from src.main.code.util.JsonUtil import JsonUtil
 from src.main.code.util.ReflectUtil import ReflectUtil
 from src.main.code.util.ResourceUtil import ResourceUtil
 
@@ -9,17 +8,29 @@ from src.main.code.util.ResourceUtil import ResourceUtil
 class TestReflectUtil(TestCase):
 
     def test_reflect(self):
-        param = {'className': 'GlobalConfig', 'model': 'src.main.code.config.GlobalConfig', 'methodName': 'test_hi', 'args': ['名字', '呵呵']}
+        param = {'className': 'TestReflectUtil', 'model': 'src.test.code.util.test_reflect_util', 'methodName': 'test_hi', 'args': ['名字', '呵呵']}
         ReflectUtil.run_clz_method(**param)
-        print(ReflectUtil.run_clz_method(className='GlobalConfig', model='src.main.code.config.GlobalConfig', methodName='test_clz', args=[]))
-        print(ReflectUtil.run_clz_method(className='GlobalConfig', model='src.main.code.config.GlobalConfig', methodName='get_config', args=[]))
+        print(ReflectUtil.run_clz_method(className='TestReflectUtil', model='src.test.code.util.test_reflect_util', methodName='test_clz', args=[]))
+        print(ReflectUtil.run_clz_method(className='TestReflectUtil', model='src.test.code.util.test_reflect_util', methodName='test_static', args=[]))
 
     def test_gen_cls(self):
         ClassGeneratorUtil.generate_cls("HandleDto", f'{ResourceUtil.get_root_path()}/src/main/code/dto/HandleDto.py',
                                         params=["element", "by", "clickActionEnum", "keys"])
 
-    def test_enum(self):
-        param = {'className': 'GlobalConfig', 'model': 'src.main.code.config.GlobalConfig', 'methodName': 'test_hi', 'args': ['名字', '呵呵']}
-        json_str = JsonUtil.to_json_str(param)
-        config = JsonUtil.str_to_json(json_str)
-        ReflectUtil.run_clz_method(**config)
+    def test_hi(self, name, hi):
+        print(name)
+        print(hi)
+
+    def test_hello(self, name):
+        print(name)
+
+    def test_me(self):
+        return 'hi'
+
+    @classmethod
+    def test_clz(cls):
+        return '类方法'
+
+    @staticmethod
+    def test_static():
+        return '静态方法'

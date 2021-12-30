@@ -11,7 +11,7 @@ class NoEleHandleDto(HandleDto):
     def __init__(self):
         # 等待的时间
         self.__waitTime = None
-        # 扩展字段
+        # 扩展字段,具体用法见对应的handler描述
         self.__ext = None
 
     @property
