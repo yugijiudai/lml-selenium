@@ -16,7 +16,7 @@ class RunMethodHandler(NoElementHandler):
     """
 
     def get_action(self) -> ActionEnum:
-        return ActionEnum.runMethod
+        return ActionEnum.RUN_METHOD
 
     def do_handle(self, handle_dto) -> None:
         """

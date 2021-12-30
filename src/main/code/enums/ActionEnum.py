@@ -9,35 +9,34 @@ class ActionEnum(Enum):
     """
 
     # 点击动作
-    click = True
+    CLICK = True
 
     # 双击动作
-    doubleClick = True
+    DOUBLE_CLICK = True
 
     # 发送文字
-    sendKeys = True
+    SEND_KEYS = True
 
     # 鼠标悬浮
-    hover = True
-
+    HOVER = True
 
     # 清空输入栏
-    clear = True
+    CLEAR = True
 
     # 切换iframe
-    switchToFrame = True
+    SWITCH_TO_FRAME = True
 
     # 点击alert
-    alert = False
+    ALERT = False
 
     # 等待
-    wait = False
+    WAIT = False
 
     # 运行js脚本
-    runScript = False
+    RUN_SCRIPT = False
 
     # 刷新页面
-    refresh = False
+    REFRESH = False
 
     # 通过反射调用对应的方法
-    runMethod = False
+    RUN_METHOD = False

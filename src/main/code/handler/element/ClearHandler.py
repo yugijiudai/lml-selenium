@@ -10,7 +10,7 @@ class ClearHandler(ElementHandler):
     """
 
     def get_action(self) -> ActionEnum:
-        return ActionEnum.clear
+        return ActionEnum.CLEAR
 
     def do_handle(self, ele_handle_dto) -> None:
         element = ele_handle_dto.elements[0]

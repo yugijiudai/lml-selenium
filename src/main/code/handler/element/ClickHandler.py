@@ -30,7 +30,7 @@ class ClickHandler(ElementHandler):
         }
 
     def get_action(self):
-        return ActionEnum.click
+        return ActionEnum.CLICK
 
     def pre_handle(self, ele_handle_dto) -> bool:
         element = ele_handle_dto.elements[0]

@@ -22,7 +22,7 @@ class TestSeleniumUtil(TestCase):
     def test_handler(self):
         InitUtil.init_driver()
         SeleniumUtil.get_url('https://www.baidu.com')
-        JsUtil.run_js('alert(111)')
+        SeleniumUtil.retry_find_and_do(handler=RunScriptHandler(), ext={'script': 'alert(111)'})
         SeleniumUtil.retry_find_and_do(handler=AlertHandler())
         SeleniumUtil.retry_find_and_do(by=By.ID, path='kw', handler=SendKeyHandler(), keys="selenium")
         SeleniumUtil.retry_find_and_do(handler=RefreshHandler())

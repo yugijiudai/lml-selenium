@@ -14,8 +14,9 @@ class TestReflectUtil(TestCase):
         print(ReflectUtil.run_clz_method(className='TestReflectUtil', model='src.test.code.util.test_reflect_util', methodName='test_static', args=[]))
 
     def test_gen_cls(self):
-        ClassGeneratorUtil.generate_cls("HandleDto", f'{ResourceUtil.get_root_path()}/src/main/code/dto/HandleDto.py',
-                                        params=["element", "by", "clickActionEnum", "keys"])
+        ClassGeneratorUtil.generate_cls("SeleniumDto", f'{ResourceUtil.get_root_path()}/src/main/code/dto/selenium_dto.py',
+                                        params=["id", "description", "model", "element_action", "element", "find_type", "script", "wait",
+                                                "retry", "click_action", "valid", "ext", "call_back"])
 
     def test_hi(self, name, hi):
         print(name)

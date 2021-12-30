@@ -13,7 +13,7 @@ class RunScriptHandler(NoElementHandler):
     """
 
     def get_action(self) -> ActionEnum:
-        return ActionEnum.runScript
+        return ActionEnum.RUN_SCRIPT
 
     def do_handle(self, handle_dto) -> None:
         """

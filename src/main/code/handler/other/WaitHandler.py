@@ -13,7 +13,7 @@ class WaitHandler(NoElementHandler):
     """
 
     def get_action(self) -> ActionEnum:
-        return ActionEnum.wait
+        return ActionEnum.WAIT
 
     def do_handle(self, handle_dto) -> None:
         SeleniumUtil.do_wait(handle_dto.wait_time)

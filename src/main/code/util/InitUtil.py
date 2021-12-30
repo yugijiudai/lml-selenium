@@ -3,7 +3,9 @@
 from seleniumwire import webdriver
 
 from src.main.code.config.GlobalConfig import GlobalConfig
+from src.main.code.dto.selenium_dto import SeleniumDto
 from src.main.code.exceptions.InitException import InitException
+from src.main.code.util.DbUtil import DbUtil
 from src.main.code.util.JsUtil import JsUtil
 
 
@@ -45,6 +47,34 @@ class InitUtil:
         cls.__selenium_driver = webdriver.Chrome(chrome_options=options, executable_path=config['driverPath'])
         # 初始化js工具类的驱动
         JsUtil.init_driver(cls.__selenium_driver)
+
+    @staticmethod
+    def load_test_case(model_name: str) -> list:
+        """
+        根据模块加载对应的用例
+        :param model_name: 模块名字
+        :return: 返回对应的seleniumDto列表
+        """
+        conn = DbUtil.get_conn()
+        result = DbUtil.query_list(conn, "select * from demo_py where model = %s and valid = 'Y' order by id", (model_name))
+        result_list = []
+        for row in result:
+            dto = SeleniumDto()
+            dto.id = row.get('id')
+            dto.description = row.get('description')
+            dto.model = row.get('model')
+            dto.element_action = row.get('elementAction')
+            dto.click_action = row.get('clickAction')
+            dto.element = row.get('element')
+            dto.find_type = row.get('findType')
+            dto.ext = row.get('ext')
+            dto.call_back = row.get('callBack')
+            dto.script = row.get('script')
+            dto.wait = row.get('wait')
+            dto.retry = row.get('retry')
+            result_list.append(dto)
+        DbUtil.close_conn(conn)
+        return result_list
 
     @classmethod
     def close_driver(cls):
