@@ -3,8 +3,10 @@
 # @File     :ReflectUtil.py
 import importlib
 import inspect
+import os
 
 from src.main.code.exceptions.InitException import InitException
+from src.main.code.util.ResourceUtil import ResourceUtil
 
 
 class ReflectUtil:
@@ -48,3 +50,19 @@ class ReflectUtil:
             # 如果包含@字符串就把他们全部拿出来拼接成一个list并且返回
             line.strip().split()[0][1:] for line in source[:index].strip().splitlines() if line.strip()[0] == "@"
         ]
+
+    @classmethod
+    def get_sub(cls, clz, packages):
+        """动态获取继承的子类"""
+        sub_clz_list = set()
+        for package in packages:
+            current_files = set()
+            current_path = f"{ResourceUtil.get_root_path()}/{package.replace('.', '/')}"
+            for root, dirs, files in os.walk(current_path):
+                current_files.update({file.split('.py')[0] for file in files if file != '__init__.py'})
+            for f in current_files:
+                module = importlib.import_module('.%s' % f, package=package)
+                for name, sub_class in inspect.getmembers(module):
+                    if inspect.isclass(sub_class) and sub_class.__base__ == clz:
+                        sub_clz_list.add(sub_class.__name__)
+        return sub_clz_list
