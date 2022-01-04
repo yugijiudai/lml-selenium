@@ -15,6 +15,7 @@ from src.main.code.dto.NoEleHandleDto import NoEleHandleDto
 from src.main.code.exceptions.FindElementException import FindElementException
 from src.main.code.exceptions.InitException import InitException
 from src.main.code.handler.SeleniumHandler import SeleniumHandler
+from src.main.code.util.EnumUtil import EnumUtil
 from src.main.code.util.InitUtil import InitUtil
 
 
@@ -110,7 +111,7 @@ class SeleniumUtil:
         selenium_handler = handle_dto['handler']
         action_enum = selenium_handler.get_action()
         # 判断是否需要查找节点
-        if action_enum.value is True:
+        if EnumUtil.get_enum_val(action_enum) is True:
             dto = EleHandleDto()
             dto.by = handle_dto['by']
             dto.elements = cls.__fluent_find(dto.by, handle_dto['path'])

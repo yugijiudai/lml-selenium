@@ -52,17 +52,25 @@ class ReflectUtil:
         ]
 
     @classmethod
-    def get_sub(cls, clz, packages):
-        """动态获取继承的子类"""
+    def get_sub(cls, father, packages) -> set:
+        """
+        根据给定的父类和指定的包名，获取这个包名下是这个父类的所有子类，只能获取直属一级的子类
+        :param father: 父类
+        :param packages: 要获取的包
+        :return: 返回一个子类set
+        """
         sub_clz_list = set()
         for package in packages:
             current_files = set()
             current_path = f"{ResourceUtil.get_root_path()}/{package.replace('.', '/')}"
             for root, dirs, files in os.walk(current_path):
+                # 获取这个路径下不包含__init__.py的文件
                 current_files.update({file.split('.py')[0] for file in files if file != '__init__.py'})
             for f in current_files:
                 module = importlib.import_module('.%s' % f, package=package)
                 for name, sub_class in inspect.getmembers(module):
-                    if inspect.isclass(sub_class) and sub_class.__base__ == clz:
-                        sub_clz_list.add(sub_class.__name__)
+                    if inspect.isclass(sub_class) and sub_class.__base__ == father:
+                        obj_class_name = getattr(module, sub_class.__name__)
+                        # 根据子类名称从m.py中获取该类
+                        sub_clz_list.add(obj_class_name)
         return sub_clz_list

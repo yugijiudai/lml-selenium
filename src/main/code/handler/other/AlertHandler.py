@@ -13,7 +13,7 @@ class AlertHandler(NoElementHandler):
     """
 
     def get_action(self) -> ActionEnum:
-        return ActionEnum.alert
+        return ActionEnum.ALERT
 
     def do_handle(self, handle_dto) -> None:
         SeleniumUtil.do_wait()

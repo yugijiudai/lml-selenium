@@ -5,6 +5,7 @@ from seleniumwire import webdriver
 from src.main.code.config.GlobalConfig import GlobalConfig
 from src.main.code.dto.selenium_dto import SeleniumDto
 from src.main.code.exceptions.InitException import InitException
+from src.main.code.factory.HandlerFactory import HandlerFactory
 from src.main.code.util.DbUtil import DbUtil
 from src.main.code.util.JsUtil import JsUtil
 
@@ -25,7 +26,18 @@ class InitUtil:
         return cls.__selenium_driver
 
     @classmethod
-    def init_driver(cls) -> None:
+    def init_all(cls) -> None:
+        """
+        初始化所有内容
+        """
+        # 初始化selenium的驱动
+        cls.__selenium_driver = cls.__init_driver()
+        # 初始化js工具类的驱动
+        cls.__init_js_driver(cls.__selenium_driver)
+        cls.__init_handler()
+
+    @classmethod
+    def __init_driver(cls) -> webdriver:
         """
         初始化selenium的驱动并且返回
         :return: 初始化好的驱动，用户可以根据自己需要来使用，原则上不建议直接使用这个driver
@@ -44,9 +56,22 @@ class InitUtil:
         if config['useNoHead']:
             # 浏览器不提供可视化页面
             options.add_argument('--headless')
-        cls.__selenium_driver = webdriver.Chrome(chrome_options=options, executable_path=config['driverPath'])
-        # 初始化js工具类的驱动
-        JsUtil.init_driver(cls.__selenium_driver)
+        return webdriver.Chrome(chrome_options=options, executable_path=config['driverPath'])
+
+    @classmethod
+    def __init_js_driver(cls, driver: webdriver) -> None:
+        """
+        初始化jsUtil里面的驱动
+        :param driver: webdriver
+        """
+        JsUtil.init_driver(driver)
+
+    @classmethod
+    def __init_handler(cls) -> None:
+        """
+        初始化所有的handler
+        """
+        HandlerFactory.init_all_handler()
 
     @staticmethod
     def load_test_case(model_name: str) -> list:

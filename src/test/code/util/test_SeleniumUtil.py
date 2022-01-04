@@ -20,7 +20,7 @@ from src.main.code.util.SeleniumUtil import SeleniumUtil
 class TestSeleniumUtil(TestCase):
 
     def test_handler(self):
-        InitUtil.init_driver()
+        InitUtil.init_all()
         SeleniumUtil.get_url('https://www.baidu.com')
         SeleniumUtil.retry_find_and_do(handler=RunScriptHandler(), ext={'script': 'alert(111)'})
         SeleniumUtil.retry_find_and_do(handler=AlertHandler())
@@ -58,7 +58,7 @@ class TestSeleniumUtil(TestCase):
         """
         使用seleniumUtil直接执行的方法
         """
-        InitUtil.init_driver()
+        InitUtil.init_all()
         SeleniumUtil.get_url('https://www.baidu.com')
         JsUtil.run_js('alert(111)')
         SeleniumUtil.click_alert()
@@ -74,4 +74,4 @@ class TestSeleniumUtil(TestCase):
         InitUtil.close_driver()
 
     def setUp(self) -> None:
-        InitUtil.init_driver()
+        InitUtil.init_all()
