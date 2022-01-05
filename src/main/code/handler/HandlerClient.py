@@ -23,6 +23,6 @@ class HandlerClient:
         ext = JsonUtil.str_to_json(selenium_dto.ext) if JsonUtil.is_json(selenium_dto.ext) else ''
         by = getattr(By, selenium_dto.find_type) if StrUtil.is_not_blank(selenium_dto.find_type) else None
         click_action = ClickActionEnum.get_name_by_value(selenium_dto.click_action) if StrUtil.is_not_blank(selenium_dto.click_action) else None
-        SeleniumUtil.retry_find_and_do(handler=handler, by=by, clickActionEnum=click_action,
-                                       wait_time=selenium_dto.wait, ext=ext,
-                                       keys=selenium_dto.ext, path=selenium_dto.element)
+        SeleniumUtil.find_or_handle(handler=handler, by=by, clickActionEnum=click_action,
+                                    wait_time=selenium_dto.wait, ext=ext,
+                                    keys=selenium_dto.ext, path=selenium_dto.element)

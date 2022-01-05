@@ -64,7 +64,6 @@ class SeleniumDto:
     def find_type(self, value):
         self.__find_type = value
 
-
     @property
     def wait(self):
         return self.__wait

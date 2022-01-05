@@ -23,37 +23,37 @@ class TestSeleniumUtil(TestCase):
     def test_handler(self):
         InitUtil.init_all()
         SeleniumUtil.get_url('https://www.baidu.com')
-        SeleniumUtil.retry_find_and_do(handler=RunScriptHandler(), ext={'script': 'alert(111)'})
-        SeleniumUtil.retry_find_and_do(handler=AlertHandler())
-        SeleniumUtil.retry_find_and_do(by=By.ID, path='kw', handler=SendKeyHandler(), keys="selenium")
-        SeleniumUtil.retry_find_and_do(handler=RefreshHandler())
-        SeleniumUtil.retry_find_and_do(by=By.ID, path='kw', handler=SendKeyHandler(), keys="selenium")
-        SeleniumUtil.retry_find_and_do(by=By.ID, path='su', handler=ClickHandler(), clickActionEnum=ClickActionEnum.BY_TAG_TYPE)
+        SeleniumUtil.find_or_handle(handler=RunScriptHandler(), ext={'script': 'alert(111)'})
+        SeleniumUtil.find_or_handle(handler=AlertHandler())
+        SeleniumUtil.find_or_handle(by=By.ID, path='kw', handler=SendKeyHandler(), keys="selenium")
+        SeleniumUtil.find_or_handle(handler=RefreshHandler())
+        SeleniumUtil.find_or_handle(by=By.ID, path='kw', handler=SendKeyHandler(), keys="selenium")
+        SeleniumUtil.find_or_handle(by=By.ID, path='su', handler=ClickHandler(), clickActionEnum=ClickActionEnum.BY_TAG_TYPE)
         JsUtil.wait_page_load()
 
     def test_no_ele_handler(self):
         param = {'className': 'TestReflectUtil', 'model': 'src.test.code.util.test_reflect_util', 'methodName': 'test_hi', 'args': ['名字', '呵呵']}
-        SeleniumUtil.retry_find_and_do(handler=RunMethodHandler(), ext=param)
+        SeleniumUtil.find_or_handle(handler=RunMethodHandler(), ext=param)
         para_script = {
             'script': 'function getTest(word){return word} return getTest(arguments[0])',
             'args': '有参数的js',
             'callFn': {'className': 'TestReflectUtil', 'model': 'src.test.code.util.test_reflect_util', 'methodName': 'test_hello'}
         }
-        SeleniumUtil.retry_find_and_do(handler=RunScriptHandler(), ext=para_script)
+        SeleniumUtil.find_or_handle(handler=RunScriptHandler(), ext=para_script)
         no_para_script = {
             'script': 'function getTest(word){return word} return getTest("哈哈哈")',
             'callFn': {'className': 'TestReflectUtil', 'model': 'src.test.code.util.test_reflect_util', 'methodName': 'test_hello'}
         }
-        SeleniumUtil.retry_find_and_do(handler=RunScriptHandler(), ext=no_para_script)
+        SeleniumUtil.find_or_handle(handler=RunScriptHandler(), ext=no_para_script)
         no_return_script = {
             'script': 'function getTest(word){return word} getTest("js没有返回参数")',
             'callFn': {'className': 'TestReflectUtil', 'model': 'src.test.code.util.test_reflect_util', 'methodName': 'test_hello', 'args': ['js没有返回参数']}
         }
-        SeleniumUtil.retry_find_and_do(handler=RunScriptHandler(), ext=no_return_script)
+        SeleniumUtil.find_or_handle(handler=RunScriptHandler(), ext=no_return_script)
         no_call_fn_script = {
             'script': 'function getTest(word){return word} getTest("没有回调方法")'
         }
-        SeleniumUtil.retry_find_and_do(handler=RunScriptHandler(), ext=no_call_fn_script)
+        SeleniumUtil.find_or_handle(handler=RunScriptHandler(), ext=no_call_fn_script)
 
     def test_selenium_util(self):
         """

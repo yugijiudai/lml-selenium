@@ -60,7 +60,7 @@ class SeleniumUtil:
         :param value:  需要查找的元素的路径
         :return: 如果查找到的元素有多个,默认返回第一个
         """
-        return cls.retry_find_and_do(by=by, path=value)[0]
+        return cls.fluent_find(by=by, path=value)[0]
 
     @classmethod
     def click_ele(cls, by: By, path: str) -> None:
@@ -69,37 +69,25 @@ class SeleniumUtil:
         :param by:  元素定位的方式
         :param path: 需要点击的元素的路径
         """
-        cls.retry_find_and_do(by=by, path=path)[0].click()
+        cls.fluent_find(by=by, path=path)[0].click()
 
     @classmethod
-    def retry_find_and_do(cls, **handle_dto) -> list:
+    def find_or_handle(cls, **handle_dto) -> list:
         """
-        重复查找和执行动作,会有重试机制
+        查找元素或者根据handler来出来，如果handler为空,则只纯去查找元素
         :param handle_dto: 需要有查找的方式by和查找的路径path等属性
         :return: 返回查找到的元素
         """
-        attempts = 0
-        retry = cls.__config['retry']
         by = handle_dto.get('by')
         path = handle_dto.get('path')
         selenium_handler = handle_dto.get('handler')
-        while attempts <= retry:
-            try:
-                if selenium_handler is None:
-                    return cls.__fluent_find(by, path)
-                handler_dto = cls.__build_handle_dto(handle_dto)
-                if isinstance(selenium_handler, SeleniumHandler) and selenium_handler.pre_handle(handler_dto):
-                    selenium_handler.do_handle(handler_dto)
-                if isinstance(handler_dto, EleHandleDto) is False:
-                    break
-                return handler_dto.elements
-            except Exception:
-                if attempts == retry:
-                    msg = f'查找{by}【{path}】时尝试{attempts}次仍然发生错误'
-                    MyLogger.log_error(msg)
-                    raise FindElementException(msg)
-                attempts = attempts + 1
-                logger.warning('操作节点{}【{}】时,发生错误,重试第{}次', by, path, attempts)
+        if selenium_handler is None:
+            return cls.fluent_find(by, path)
+        handler_dto = cls.__build_handle_dto(handle_dto)
+        if isinstance(selenium_handler, SeleniumHandler) and selenium_handler.pre_handle(handler_dto):
+            selenium_handler.do_handle(handler_dto)
+        if isinstance(handler_dto, EleHandleDto) is True:
+            return handler_dto.elements
 
     @classmethod
     def __build_handle_dto(cls, handle_dto: dict) -> HandleDto:
@@ -114,7 +102,7 @@ class SeleniumUtil:
         if EnumUtil.get_enum_val(action_enum) is True:
             dto = EleHandleDto()
             dto.by = handle_dto['by']
-            dto.elements = cls.__fluent_find(dto.by, handle_dto['path'])
+            dto.elements = cls.fluent_find(dto.by, handle_dto['path'])
             dto.click_action = handle_dto.get('clickActionEnum')
             dto.keys = handle_dto.get('keys')
             return dto
@@ -124,16 +112,27 @@ class SeleniumUtil:
         return no_ele
 
     @classmethod
-    def __fluent_find(cls, by: By, path: str) -> list:
+    def fluent_find(cls, by: By, path: str) -> list:
         """
-        使用显示的方式去查找元素
-        :param by:  元素定位的方式
-        :param path: 需要点击的元素的路径
+        重复查找和执行动作,会有重试机制
+        :param by: 元素定位的方式
+        :param path: 需要查找的元素路径
         :return: 返回查找到的元素
         """
-        wait_ele = WebDriverWait(InitUtil.get_driver(), cls.__config['waitElement']).until(lambda browser: browser.find_elements(by, path))
-        logger.info("元素:{},存在:{}", wait_ele, cls.is_find(wait_ele))
-        return wait_ele
+        attempts = 0
+        retry = cls.__config['retry']
+        while attempts <= retry:
+            try:
+                wait_ele = WebDriverWait(InitUtil.get_driver(), cls.__config['waitElement']).until(lambda browser: browser.find_elements(by, path))
+                logger.info("元素:{},存在:{}", wait_ele, cls.is_find(wait_ele))
+                return wait_ele
+            except Exception:
+                if attempts == retry:
+                    msg = f'查找{by}【{path}】时尝试{attempts}次仍然发生错误'
+                    MyLogger.log_error(msg)
+                    raise FindElementException(msg)
+                attempts = attempts + 1
+                logger.warning('操作节点{}【{}】时,发生错误,重试第{}次', by, path, attempts)
 
     @classmethod
     def is_find(cls, elements: list) -> bool:
