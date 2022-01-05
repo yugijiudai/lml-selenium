@@ -5,6 +5,7 @@ from src.main.code.handler.HandlerClient import HandlerClient
 # from src.main.code.handler.other.NoElementHandler import NoElementHandler
 from src.main.code.util.DbUtil import DbUtil
 from src.main.code.util.InitUtil import InitUtil
+from src.main.code.util.StrUtil import StrUtil
 
 
 class TestDbUtil(TestCase):
@@ -24,4 +25,6 @@ class TestDbUtil(TestCase):
             handler_client.do_action(item)
 
     def test_child(self):
-        pass
+        print(StrUtil.is_blank(''))
+        print(StrUtil.is_blank(None))
+        print(StrUtil.is_blank('fwefwe'))

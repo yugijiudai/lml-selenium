@@ -39,7 +39,7 @@ class EleHandleDto(HandleDto):
     def click_action(self):
         if self.__clickActionEnum is not None:
             return self.__clickActionEnum
-        return ClickActionEnum.by_tag_type
+        return ClickActionEnum.BY_TAG_TYPE
 
     @click_action.setter
     def click_action(self, value):

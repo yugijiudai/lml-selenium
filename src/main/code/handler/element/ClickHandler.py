@@ -22,11 +22,11 @@ class ClickHandler(ElementHandler):
     def __init__(self) -> None:
         # 初始化好对应的点击方法
         self.do_click_func = {
-            ClickActionEnum.api: self.__api_click,
-            ClickActionEnum.js: self.__js_click,
-            ClickActionEnum.by_tag_type: self.__by_tag,
-            ClickActionEnum.right_click: self.__right_click,
-            ClickActionEnum.double_click: self.__double_click,
+            ClickActionEnum.API: self.__api_click,
+            ClickActionEnum.JS: self.__js_click,
+            ClickActionEnum.BY_TAG_TYPE: self.__by_tag,
+            ClickActionEnum.RIGHT_CLICK: self.__right_click,
+            ClickActionEnum.DOUBLE_CLICK: self.__double_click,
         }
 
     def get_action(self):

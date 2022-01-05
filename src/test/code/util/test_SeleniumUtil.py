@@ -28,7 +28,7 @@ class TestSeleniumUtil(TestCase):
         SeleniumUtil.retry_find_and_do(by=By.ID, path='kw', handler=SendKeyHandler(), keys="selenium")
         SeleniumUtil.retry_find_and_do(handler=RefreshHandler())
         SeleniumUtil.retry_find_and_do(by=By.ID, path='kw', handler=SendKeyHandler(), keys="selenium")
-        SeleniumUtil.retry_find_and_do(by=By.ID, path='su', handler=ClickHandler(), clickActionEnum=ClickActionEnum.by_tag_type)
+        SeleniumUtil.retry_find_and_do(by=By.ID, path='su', handler=ClickHandler(), clickActionEnum=ClickActionEnum.BY_TAG_TYPE)
         JsUtil.wait_page_load()
 
     def test_no_ele_handler(self):
