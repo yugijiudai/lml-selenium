@@ -1,5 +1,6 @@
 from unittest import TestCase
 
+from src.main.code.factory.HandlerFactory import HandlerFactory
 from src.main.code.handler.HandlerClient import HandlerClient
 # from src.main.code.handler.other.NoElementHandler import NoElementHandler
 from src.main.code.util.DbUtil import DbUtil
@@ -16,9 +17,11 @@ class TestDbUtil(TestCase):
         DbUtil.close_conn(conn)
 
     def test_load_test_case(self):
+        HandlerFactory.init_all_handler()
         selenium_dto_list = InitUtil.load_test_case("百度")
+        handler_client = HandlerClient()
         for item in selenium_dto_list:
-            HandlerClient.do_action(item)
+            handler_client.do_action(item)
 
     def test_child(self):
         pass

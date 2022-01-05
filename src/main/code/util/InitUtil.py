@@ -94,7 +94,6 @@ class InitUtil:
             dto.find_type = row.get('findType')
             dto.ext = row.get('ext')
             dto.call_back = row.get('callBack')
-            dto.script = row.get('script')
             dto.wait = row.get('wait')
             dto.retry = row.get('retry')
             result_list.append(dto)

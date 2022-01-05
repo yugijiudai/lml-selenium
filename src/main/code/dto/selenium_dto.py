@@ -1,5 +1,5 @@
 class SeleniumDto:
-    __slots__ = ('__id', '__description', '__model', '__element_action', '__element', '__find_type', '__script',
+    __slots__ = ('__id', '__description', '__model', '__element_action', '__element', '__find_type',
                  '__wait', '__retry', '__click_action', '__valid', '__ext', '__call_back')
 
     def __init__(self):
@@ -9,7 +9,6 @@ class SeleniumDto:
         self.__element_action = None
         self.__element = None
         self.__find_type = None
-        self.__script = None
         self.__wait = None
         self.__retry = None
         self.__click_action = None
@@ -65,13 +64,6 @@ class SeleniumDto:
     def find_type(self, value):
         self.__find_type = value
 
-    @property
-    def script(self):
-        return self.__script
-
-    @script.setter
-    def script(self, value):
-        self.__script = value
 
     @property
     def wait(self):
@@ -129,7 +121,6 @@ class SeleniumDto:
             "element_action": self.__element_action,
             "element": self.__element,
             "find_type": self.__find_type,
-            "script": self.__script,
             "wait": self.__wait,
             "retry": self.__retry,
             "click_action": self.__click_action,

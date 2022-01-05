@@ -51,3 +51,11 @@ class JsonUtil:
         :return: 对应的value
         """
         return dict_obj[key] if dict_obj.get(key) is not None else default_val
+
+    @classmethod
+    def is_json(cls, content):
+        try:
+            cls.str_to_json(content)
+        except ValueError:
+            return False
+        return True

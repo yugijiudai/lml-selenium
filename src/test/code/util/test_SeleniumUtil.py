@@ -6,6 +6,7 @@ from unittest import TestCase
 from selenium.webdriver.common.by import By
 
 from src.main.code.enums.ClickActionEnum import ClickActionEnum
+from src.main.code.handler.HandlerClient import HandlerClient
 from src.main.code.handler.element.ClickHandler import ClickHandler
 from src.main.code.handler.element.SendKeyHandler import SendKeyHandler
 from src.main.code.handler.other.AlertHandler import AlertHandler
@@ -69,6 +70,15 @@ class TestSeleniumUtil(TestCase):
         JsUtil.run_js_with_param('arguments[0].click(); return 111', find)
         JsUtil.wait_page_load()
         SeleniumUtil.click_ele(by=By.ID, path='su')
+
+    def test_load_test_case(self):
+        InitUtil.init_all()
+        SeleniumUtil.get_url('https://www.baidu.com')
+        selenium_dto_list = InitUtil.load_test_case("百度")
+        handler_client = HandlerClient()
+        for item in selenium_dto_list:
+            handler_client.do_action(item)
+        JsUtil.wait_page_load()
 
     def tearDown(self):
         InitUtil.close_driver()

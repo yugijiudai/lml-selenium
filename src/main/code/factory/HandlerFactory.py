@@ -6,6 +6,7 @@
 """
 from src.main.code.handler.element.ElementHandler import ElementHandler
 from src.main.code.handler.other.NoElementHandler import NoElementHandler
+from src.main.code.util.EnumUtil import EnumUtil
 from src.main.code.util.ReflectUtil import ReflectUtil
 
 
@@ -31,7 +32,8 @@ class HandlerFactory:
         ele_set.update(no_ele_set)
         for tmp in ele_set:
             handler = tmp()
-            cls.__handler_dict[handler.get_action()] = handler
+            action = EnumUtil.get_enum_name(handler.get_action())
+            cls.__handler_dict[action] = handler
 
     @classmethod
     def init_ele_handler(cls) -> set:
