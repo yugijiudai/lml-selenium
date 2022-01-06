@@ -3,7 +3,7 @@
 from seleniumwire import webdriver
 
 from src.main.code.config.GlobalConfig import GlobalConfig
-from src.main.code.dto.selenium_dto import SeleniumDto
+from src.main.code.dto.SeleniumDto import SeleniumDto
 from src.main.code.exceptions.InitException import InitException
 from src.main.code.factory.HandlerFactory import HandlerFactory
 from src.main.code.util.DbUtil import DbUtil
