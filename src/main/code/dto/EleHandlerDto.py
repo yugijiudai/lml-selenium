@@ -1,8 +1,8 @@
-from src.main.code.dto.HandleDto import HandleDto
+from src.main.code.dto.HandlerDto import HandlerDto
 from src.main.code.enums.ClickActionEnum import ClickActionEnum
 
 
-class EleHandleDto(HandleDto):
+class EleHandlerDto(HandlerDto):
     """
     需要查找元素的dto
     """

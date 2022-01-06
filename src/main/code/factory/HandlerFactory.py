@@ -1,9 +1,6 @@
 # Author : lml
 # Date : 2022/1/4
 
-"""
-文件说明
-"""
 from src.main.code.handler.element.ElementHandler import ElementHandler
 from src.main.code.handler.other.NoElementHandler import NoElementHandler
 from src.main.code.util.EnumUtil import EnumUtil

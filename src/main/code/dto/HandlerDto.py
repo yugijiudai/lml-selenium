@@ -2,7 +2,7 @@
 # Date : 2021/12/28
 
 
-class HandleDto:
+class HandlerDto:
     """
     数据传输抽象类
     """

@@ -1,7 +1,7 @@
-from src.main.code.dto.HandleDto import HandleDto
+from src.main.code.dto.HandlerDto import HandlerDto
 
 
-class NoEleHandleDto(HandleDto):
+class NoEleHandlerDto(HandlerDto):
     """
     不需要查找元素的dto
     """

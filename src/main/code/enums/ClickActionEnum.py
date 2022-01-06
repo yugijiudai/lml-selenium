@@ -20,9 +20,3 @@ class ClickActionEnum(Enum):
 
     RIGHT_CLICK = '右键'
 
-    @staticmethod
-    def get_name_by_value(name: str):
-        for enum_name, enum_val in ClickActionEnum.__members__.items():
-            if name == enum_name:
-                return enum_val
-        raise ValueError(f'找不到{name}的枚举类')

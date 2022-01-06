@@ -1,6 +1,6 @@
 # Author : lml
 # Date : 2021/12/30
-from src.main.code.dto.NoEleHandleDto import NoEleHandleDto
+from src.main.code.dto.NoEleHandlerDto import NoEleHandlerDto
 from src.main.code.enums.ActionEnum import ActionEnum
 from src.main.code.handler.other.NoElementHandler import NoElementHandler
 from src.main.code.handler.other.RunMethodHandler import RunMethodHandler
@@ -37,7 +37,7 @@ class RunScriptHandler(NoElementHandler):
                 call_fn_args.append(js_result)
             # 把js脚本的结果作为回调方法的入参
             call_fn['args'] = call_fn_args
-            no_ele_handle_dto = NoEleHandleDto()
+            no_ele_handle_dto = NoEleHandlerDto()
             no_ele_handle_dto.ext = call_fn
             run_method_handler.do_handle(no_ele_handle_dto)
 

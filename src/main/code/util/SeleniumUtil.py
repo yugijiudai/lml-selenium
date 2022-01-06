@@ -9,9 +9,9 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 from src.main.code.config.GlobalConfig import GlobalConfig
 from src.main.code.config.Logger import MyLogger
-from src.main.code.dto.EleHandleDto import EleHandleDto
-from src.main.code.dto.HandleDto import HandleDto
-from src.main.code.dto.NoEleHandleDto import NoEleHandleDto
+from src.main.code.dto.EleHandlerDto import EleHandlerDto
+from src.main.code.dto.HandlerDto import HandlerDto
+from src.main.code.dto.NoEleHandlerDto import NoEleHandlerDto
 from src.main.code.exceptions.FindElementException import FindElementException
 from src.main.code.exceptions.InitException import InitException
 from src.main.code.handler.SeleniumHandler import SeleniumHandler
@@ -86,11 +86,11 @@ class SeleniumUtil:
         handler_dto = cls.__build_handle_dto(handle_dto)
         if isinstance(selenium_handler, SeleniumHandler) and selenium_handler.pre_handle(handler_dto):
             selenium_handler.do_handle(handler_dto)
-        if isinstance(handler_dto, EleHandleDto) is True:
+        if isinstance(handler_dto, EleHandlerDto) is True:
             return handler_dto.elements
 
     @classmethod
-    def __build_handle_dto(cls, handle_dto: dict) -> HandleDto:
+    def __build_handle_dto(cls, handle_dto: dict) -> HandlerDto:
         """
         构建eleHandleDto
         :param handle_dto: 处理的传输类,需要有by,clickActionEnum,keys等元素
@@ -100,13 +100,13 @@ class SeleniumUtil:
         action_enum = selenium_handler.get_action()
         # 判断是否需要查找节点
         if EnumUtil.get_enum_val(action_enum) is True:
-            dto = EleHandleDto()
+            dto = EleHandlerDto()
             dto.by = handle_dto['by']
             dto.elements = cls.fluent_find(dto.by, handle_dto['path'])
             dto.click_action = handle_dto.get('clickActionEnum')
             dto.keys = handle_dto.get('keys')
             return dto
-        no_ele = NoEleHandleDto()
+        no_ele = NoEleHandlerDto()
         no_ele.wait_time = handle_dto.get('wait_time')
         no_ele.ext = handle_dto.get('ext')
         return no_ele

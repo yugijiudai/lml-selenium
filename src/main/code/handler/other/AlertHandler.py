@@ -1,7 +1,6 @@
 # Author : lml
 # Date : 2021/12/28
 
-
 from src.main.code.enums.ActionEnum import ActionEnum
 from src.main.code.handler.other.NoElementHandler import NoElementHandler
 from src.main.code.util.SeleniumUtil import SeleniumUtil

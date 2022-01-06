@@ -40,3 +40,15 @@ class EnumUtil:
             value = cls.get_enum_val(tmp[1], val_tag)
             enum_list.append({key: value})
         return enum_list
+
+    @staticmethod
+    def convert_to_enum(val: str, enum) -> Enum:
+        """
+        :param val: 需要转换的值
+        :param enum: 最终转换出去的枚举类
+        :return: 根据字符串的值转换成对应的枚举类
+        """
+        for enum_name, enum_val in enum.__members__.items():
+            if val == enum_name:
+                return enum_val
+        raise ValueError(f'找不到{val}的枚举类')
