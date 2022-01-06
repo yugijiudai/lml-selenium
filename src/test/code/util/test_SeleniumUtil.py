@@ -74,7 +74,7 @@ class TestSeleniumUtil(TestCase):
     def test_load_test_case(self):
         InitUtil.init_all()
         SeleniumUtil.get_url('https://www.baidu.com')
-        selenium_dto_list = InitUtil.load_test_case("百度")
+        selenium_dto_list = InitUtil.load_test_case("py_demo", "百度")
         handler_client = HandlerClient()
         for item in selenium_dto_list:
             handler_client.do_action(item)

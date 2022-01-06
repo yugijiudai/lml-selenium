@@ -74,14 +74,15 @@ class InitUtil:
         HandlerFactory.init_all_handler()
 
     @staticmethod
-    def load_test_case(model_name: str) -> list:
+    def load_test_case(table_name: str, model_name: str) -> list:
         """
         根据模块加载对应的用例
+        :param table_name: 表的名字
         :param model_name: 模块名字
         :return: 返回对应的seleniumDto列表
         """
         conn = DbUtil.get_conn()
-        result = DbUtil.query_list(conn, "select * from demo_py where model = %s and valid = 'Y' order by id", (model_name))
+        result = DbUtil.query_list(conn, "select * from " + table_name + " where model = %s and valid = 'Y' order by id", (model_name))
         result_list = []
         for row in result:
             dto = SeleniumDto()
