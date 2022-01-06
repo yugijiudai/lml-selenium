@@ -9,13 +9,8 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 from src.main.code.config.GlobalConfig import GlobalConfig
 from src.main.code.config.Logger import MyLogger
-from src.main.code.dto.EleHandlerDto import EleHandlerDto
-from src.main.code.dto.HandlerDto import HandlerDto
-from src.main.code.dto.NoEleHandlerDto import NoEleHandlerDto
 from src.main.code.exceptions.FindElementException import FindElementException
 from src.main.code.exceptions.InitException import InitException
-from src.main.code.handler.SeleniumHandler import SeleniumHandler
-from src.main.code.util.EnumUtil import EnumUtil
 from src.main.code.util.InitUtil import InitUtil
 
 
@@ -53,14 +48,24 @@ class SeleniumUtil:
             InitUtil.get_driver().quit()
 
     @classmethod
-    def find_element(cls, by: By, value: str) -> WebElement:
+    def find_element(cls, by: By, path: str) -> WebElement:
         """
         查找单个元素
         :param by:  元素定位的方式
-        :param value:  需要查找的元素的路径
+        :param path:  需要查找的元素的路径
         :return: 如果查找到的元素有多个,默认返回第一个
         """
-        return cls.fluent_find(by=by, path=value)[0]
+        return cls.find_elements(by=by, path=path)[0]
+
+    @classmethod
+    def find_elements(cls, by: By, path: str) -> list:
+        """
+        查找多个元素
+        :param by:  元素定位的方式
+        :param path:  需要查找的元素的路径
+        :return: 找到的元素列表
+        """
+        return cls.__fluent_find(by=by, path=path)
 
     @classmethod
     def click_ele(cls, by: By, path: str) -> None:
@@ -69,50 +74,10 @@ class SeleniumUtil:
         :param by:  元素定位的方式
         :param path: 需要点击的元素的路径
         """
-        cls.fluent_find(by=by, path=path)[0].click()
+        cls.__fluent_find(by=by, path=path)[0].click()
 
     @classmethod
-    def find_or_handle(cls, **handle_dto) -> list:
-        """
-        查找元素或者根据handler来出来，如果handler为空,则只纯去查找元素
-        :param handle_dto: 需要有查找的方式by和查找的路径path等属性
-        :return: 返回查找到的元素
-        """
-        by = handle_dto.get('by')
-        path = handle_dto.get('path')
-        selenium_handler = handle_dto.get('handler')
-        if selenium_handler is None:
-            return cls.fluent_find(by, path)
-        handler_dto = cls.__build_handle_dto(handle_dto)
-        if isinstance(selenium_handler, SeleniumHandler) and selenium_handler.pre_handle(handler_dto):
-            selenium_handler.do_handle(handler_dto)
-        if isinstance(handler_dto, EleHandlerDto) is True:
-            return handler_dto.elements
-
-    @classmethod
-    def __build_handle_dto(cls, handle_dto: dict) -> HandlerDto:
-        """
-        构建eleHandleDto
-        :param handle_dto: 处理的传输类,需要有by,clickActionEnum,keys等元素
-        :return: 返回构件好的dto
-        """
-        selenium_handler = handle_dto['handler']
-        action_enum = selenium_handler.get_action()
-        # 判断是否需要查找节点
-        if EnumUtil.get_enum_val(action_enum) is True:
-            dto = EleHandlerDto()
-            dto.by = handle_dto['by']
-            dto.elements = cls.fluent_find(dto.by, handle_dto['path'])
-            dto.click_action = handle_dto.get('clickActionEnum')
-            dto.keys = handle_dto.get('keys')
-            return dto
-        no_ele = NoEleHandlerDto()
-        no_ele.wait_time = handle_dto.get('wait_time')
-        no_ele.ext = handle_dto.get('ext')
-        return no_ele
-
-    @classmethod
-    def fluent_find(cls, by: By, path: str) -> list:
+    def __fluent_find(cls, by: By, path: str) -> list:
         """
         重复查找和执行动作,会有重试机制
         :param by: 元素定位的方式

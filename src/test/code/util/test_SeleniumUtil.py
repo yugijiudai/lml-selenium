@@ -21,8 +21,7 @@ from src.main.code.util.SeleniumUtil import SeleniumUtil
 class TestSeleniumUtil(TestCase):
 
     def test_handler(self):
-        InitUtil.init_all()
-        SeleniumUtil.get_url('https://www.baidu.com')
+        # todo 这个调用方法需要改
         SeleniumUtil.find_or_handle(handler=RunScriptHandler(), ext={'script': 'alert(111)'})
         SeleniumUtil.find_or_handle(handler=AlertHandler())
         SeleniumUtil.find_or_handle(by=By.ID, path='kw', handler=SendKeyHandler(), keys="selenium")
@@ -32,6 +31,7 @@ class TestSeleniumUtil(TestCase):
         JsUtil.wait_page_load()
 
     def test_no_ele_handler(self):
+        # todo 这个调用方法需要改
         param = {'className': 'TestReflectUtil', 'model': 'src.test.code.util.test_reflect_util', 'methodName': 'test_hi', 'args': ['名字', '呵呵']}
         SeleniumUtil.find_or_handle(handler=RunMethodHandler(), ext=param)
         para_script = {
@@ -59,21 +59,17 @@ class TestSeleniumUtil(TestCase):
         """
         使用seleniumUtil直接执行的方法
         """
-        InitUtil.init_all()
-        SeleniumUtil.get_url('https://www.baidu.com')
         JsUtil.run_js('alert(111)')
         SeleniumUtil.click_alert()
         SeleniumUtil.send_keys(By.ID, "kw", 'selenium')
         SeleniumUtil.refresh()
         SeleniumUtil.send_keys(By.ID, "kw", 'selenium')
         find = SeleniumUtil.find_element(By.ID, 'su')
-        JsUtil.run_js_with_param('arguments[0].click(); return 111', find)
+        print(JsUtil.run_js_with_param('arguments[0].click(); return 111', find))
         JsUtil.wait_page_load()
         SeleniumUtil.click_ele(by=By.ID, path='su')
 
     def test_load_test_case(self):
-        InitUtil.init_all()
-        SeleniumUtil.get_url('https://www.baidu.com')
         selenium_dto_list = InitUtil.load_test_case("demo_py", "百度")
         handler_client = HandlerClient()
         for item in selenium_dto_list:
@@ -85,3 +81,4 @@ class TestSeleniumUtil(TestCase):
 
     def setUp(self) -> None:
         InitUtil.init_all()
+        SeleniumUtil.get_url('https://www.baidu.com')

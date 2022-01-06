@@ -35,9 +35,9 @@ class JsUtil:
         :param script:  需要运行的脚本
         :return: 脚本的返回值
         """
-        logger.debug("预执行脚本:\n{}", script)
+        logger.debug("预执行脚本:{}", script)
         response = cls.__js_driver.execute_script(script)
-        logger.debug("执行脚本成功:\n{}\n返回值是:{}", script, response)
+        logger.debug("执行脚本成功:{}\n返回值是:{}", script, response)
         return response
 
     @classmethod

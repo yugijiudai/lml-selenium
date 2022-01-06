@@ -1,6 +1,6 @@
 # @Author:lml
 # @Time:2022/1/6 23:32
-# @File     :HandlerDtoConverter.py
+# @File     :HandlerDtoFactory.py
 from selenium.webdriver.common.by import By
 
 from src.main.code.dto.EleHandlerDto import EleHandlerDto
@@ -15,15 +15,15 @@ from src.main.code.util.SeleniumUtil import SeleniumUtil
 from src.main.code.util.StrUtil import StrUtil
 
 
-class HandlerDtoConverter:
+class HandlerDtoFactory:
     """
-    handlerDto转换工具类
+    handlerDto工厂
     """
 
     @classmethod
     def build_handler_dto(cls, selenium_dto: SeleniumDto) -> HandlerDto:
         """
-        构建eleHandleDto
+        根据SeleniumDto构建出handlerDto
         :param selenium_dto: 加载出来的用例dto
         :return: 返回构件好的dto
         """
@@ -57,7 +57,7 @@ class HandlerDtoConverter:
         """
         dto = EleHandlerDto()
         dto.by = getattr(By, selenium_dto.find_type) if StrUtil.is_not_blank(selenium_dto.find_type) else None
-        dto.elements = SeleniumUtil.fluent_find(dto.by, selenium_dto.element)
+        dto.elements = SeleniumUtil.find_elements(dto.by, selenium_dto.element)
         click_action = selenium_dto.click_action
         dto.click_action = EnumUtil.convert_to_enum(click_action, ClickActionEnum) if StrUtil.is_not_blank(click_action) else None
         dto.keys = ext
