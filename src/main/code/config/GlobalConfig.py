@@ -1,11 +1,16 @@
 # @Author:lml
 # @Time:2021/12/6 22:07
 # @File     :GlobalConfig.py
+from src.main.code.exceptions.InitException import InitException
+
 
 class GlobalConfig:
     """
     全局的配置文件
     """
+
+    def __init__(self) -> None:
+        raise InitException("该类不允许初始化")
 
     @staticmethod
     def get_config():
@@ -14,8 +19,8 @@ class GlobalConfig:
         """
         return {
             # chromeDriver位置
-            # "driverPath": "/Volumes/common/dev/driver/chromedriver",
-            "driverPath": "D:\\driver\\chromedriver.exe",
+            "driverPath": "/Volumes/common/dev/driver/chromedriver",
+            # "driverPath": "D:\\driver\\chromedriver.exe",
             # 查找元素的重试次数
             "retry": 2,
             #  查找元素的时候等待元素的时间(显示等待,单位秒)

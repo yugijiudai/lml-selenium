@@ -1,6 +1,6 @@
 # Author : lml
 # Date : 2022/1/4
-
+from src.main.code.exceptions.InitException import InitException
 from src.main.code.handler.element.ElementHandler import ElementHandler
 from src.main.code.handler.other.NoElementHandler import NoElementHandler
 from src.main.code.util.EnumUtil import EnumUtil
@@ -13,6 +13,9 @@ class HandlerFactory:
     """
     # key是对应的actionEnum, value是handler的实例化对象
     __handler_dict = {}
+
+    def __init__(self) -> None:
+        raise InitException("该类不允许初始化")
 
     @classmethod
     def get_handler_dict(cls):

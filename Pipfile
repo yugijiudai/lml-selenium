@@ -18,6 +18,7 @@ loguru = "*"
 opencv-python = {version = "*", index = "https://pypi.tuna.tsinghua.edu.cn/simple"}
 pydivert = "*"
 pandas = "*"
+ddt = "*"
 [dev-packages]
 
 [requires]

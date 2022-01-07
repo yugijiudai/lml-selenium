@@ -3,12 +3,16 @@
 # @File     :EnumUtil.py
 from enum import Enum
 
+from src.main.code.exceptions.InitException import InitException
+
 
 class EnumUtil:
     """
    枚举工具类
-
     """
+
+    def __init__(self) -> None:
+        raise InitException("该类不允许初始化")
 
     @staticmethod
     def get_enum_name(enum: Enum) -> str:

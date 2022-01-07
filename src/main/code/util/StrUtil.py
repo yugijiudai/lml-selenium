@@ -1,11 +1,16 @@
 # @Author:lml
 # @Time:2022/1/5 23:57
 # @File     :StrUtil.py
+from src.main.code.exceptions.InitException import InitException
+
 
 class StrUtil:
     """
     字符串工具类
     """
+
+    def __init__(self) -> None:
+        raise InitException("该类不允许初始化")
 
     @staticmethod
     def is_blank(value) -> bool:

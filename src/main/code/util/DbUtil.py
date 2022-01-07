@@ -4,11 +4,16 @@
 
 import pymysql
 
+from src.main.code.exceptions.InitException import InitException
+
 
 class DbUtil:
     """
     数据库工具类
     """
+
+    def __init__(self) -> None:
+        raise InitException("该类不允许初始化")
 
     @classmethod
     def get_conn(cls):

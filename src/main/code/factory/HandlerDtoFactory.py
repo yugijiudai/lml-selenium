@@ -9,6 +9,7 @@ from src.main.code.dto.NoEleHandlerDto import NoEleHandlerDto
 from src.main.code.dto.SeleniumDto import SeleniumDto
 from src.main.code.enums.ActionEnum import ActionEnum
 from src.main.code.enums.ClickActionEnum import ClickActionEnum
+from src.main.code.exceptions.InitException import InitException
 from src.main.code.util.EnumUtil import EnumUtil
 from src.main.code.util.JsonUtil import JsonUtil
 from src.main.code.util.SeleniumUtil import SeleniumUtil
@@ -19,6 +20,9 @@ class HandlerDtoFactory:
     """
     handlerDto工厂
     """
+
+    def __init__(self) -> None:
+        raise InitException("该类不允许初始化")
 
     @classmethod
     def build_handler_dto(cls, selenium_dto: SeleniumDto) -> HandlerDto:
