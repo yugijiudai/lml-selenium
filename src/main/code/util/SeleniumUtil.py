@@ -33,12 +33,6 @@ class SeleniumUtil:
         """
         InitUtil.get_driver().get(url)
 
-    @staticmethod
-    def get_request_msg(web_driver):
-        for request in web_driver.requests:
-            if request.response:
-                print(request)
-
     @classmethod
     def close_driver(cls):
         """

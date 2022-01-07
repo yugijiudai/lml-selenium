@@ -1,6 +1,8 @@
 # @Author:lml
 # @Time:2021/12/6 23:46
 # @File     :JsUtil.py
+from time import sleep
+
 from loguru import logger
 from selenium.webdriver.support.wait import WebDriverWait
 from seleniumwire import webdriver
@@ -72,6 +74,8 @@ class JsUtil:
         """
         等待整个页面加载完成
         """
+        # 先等1秒确保请求有发送出去
+        sleep(1)
         # 先等待JS加载完成
         cls.wait_until_js_ready()
         flag = cls.run_js("return typeof jQuery != 'undefined'")

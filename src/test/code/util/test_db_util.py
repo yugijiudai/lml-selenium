@@ -1,8 +1,8 @@
+import re
 from unittest import TestCase
 
 # from src.main.code.handler.other.NoElementHandler import NoElementHandler
 from src.main.code.util.DbUtil import DbUtil
-from src.main.code.util.StrUtil import StrUtil
 
 
 class TestDbUtil(TestCase):
@@ -15,6 +15,5 @@ class TestDbUtil(TestCase):
         DbUtil.close_conn(conn)
 
     def test_child(self):
-        print(StrUtil.is_blank(''))
-        print(StrUtil.is_blank(None))
-        print(StrUtil.is_blank('fwefwe'))
+        search = re.search('.*(css|ico|jpg|jpeg|png|gif|bmp|wav|js|woff2|woff|json|svg)(\\?.*)?$', 'xxx.css?version=1')
+        print(search)

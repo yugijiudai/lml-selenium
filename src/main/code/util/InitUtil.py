@@ -56,7 +56,10 @@ class InitUtil:
         if config['useNoHead']:
             # 浏览器不提供可视化页面
             options.add_argument('--headless')
-        return webdriver.Chrome(chrome_options=options, executable_path=config['driverPath'])
+        driver = webdriver.Chrome(chrome_options=options, executable_path=config['driverPath'])
+        if config['isMax']:
+            driver.maximize_window()
+        return driver
 
     @classmethod
     def __init_js_driver(cls, driver: webdriver) -> None:
