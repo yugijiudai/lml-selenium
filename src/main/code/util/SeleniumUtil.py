@@ -108,6 +108,9 @@ class SeleniumUtil:
     @classmethod
     def send_keys(cls, by: By, path: str, text: str) -> None:
         element = cls.find_element(by, path)
+        # 先点中,然后清空,最后输入
+        element.click()
+        element.clear()
         element.send_keys(text)
 
     @classmethod

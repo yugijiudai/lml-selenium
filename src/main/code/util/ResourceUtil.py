@@ -40,3 +40,8 @@ class ResourceUtil:
         :return: 根目录
         """
         return os.getcwd().split(PROJECT_NAME)[0] + f"{PROJECT_NAME}"
+
+    @classmethod
+    def load_file(cls, file_path) -> str:
+        with open(file_path, 'r', encoding='UTF-8') as load_f:
+            return load_f.read()

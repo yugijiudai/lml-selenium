@@ -19,8 +19,8 @@ class GlobalConfig:
         """
         return {
             # chromeDriver位置
-            # "driverPath": "/Volumes/common/dev/driver/chromedriver",
-            "driverPath": "D:\\driver\\chromedriver.exe",
+            "driverPath": "/Volumes/common/dev/driver/chromedriver",
+            # "driverPath": "D:\\driver\\chromedriver.exe",
             # 查找元素的重试次数
             "retry": 3,
             #  查找元素的时候等待元素的时间(显示等待,单位秒)
