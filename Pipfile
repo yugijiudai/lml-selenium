@@ -19,6 +19,7 @@ opencv-python = {version = "*", index = "https://pypi.tuna.tsinghua.edu.cn/simpl
 pydivert = "*"
 pandas = "*"
 ddt = "*"
+ujson = "*"
 [dev-packages]
 
 [requires]

@@ -1,4 +1,5 @@
 import json5
+import ujson
 
 from src.main.code.exceptions.InitException import InitException
 
@@ -18,7 +19,8 @@ class JsonUtil:
         :param obj:  需要转换的对象
         :return: json类型的字符串
         """
-        return json5.dumps(obj, ensure_ascii=False, quote_keys=True)
+        # return ujson.dumps(obj, ensure_ascii=False, quote_keys=True)
+        return ujson.dumps(obj, ensure_ascii=False)
 
     @staticmethod
     def str_to_json(text: str) -> json5:
@@ -27,7 +29,16 @@ class JsonUtil:
         @param text: 需要转json的字符串
         @return: json格式
         """
-        return json5.loads(text)
+        return ujson.loads(text)
+
+    @staticmethod
+    def load_json5(val):
+        """
+        解析json5文件
+        :param val: 用io解析后的json5文件的file
+        :return: 解析json5
+        """
+        return json5.load(val)
 
     @staticmethod
     def set_not_null_val(target: dict, source: dict, pro: str):
