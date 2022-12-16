@@ -54,7 +54,7 @@ class JsUtil:
         :param kwargs:  需要传参
         :return: 脚本的返回值
         """
-        logger.debug("与执行脚本:{}\n参数是:{}", script, *kwargs)
+        logger.debug("预执行脚本:{}\n参数是:{}", script, *kwargs)
         response = cls.__js_driver.execute_script(script, *kwargs)
         logger.debug("执行脚本成功:{}\n参数是:{}\n返回值是:{}", script, *kwargs, response)
         return response

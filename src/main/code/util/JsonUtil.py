@@ -1,3 +1,5 @@
+import ast
+
 import json5
 import ujson
 
@@ -63,10 +65,15 @@ class JsonUtil:
         """
         return dict_obj[key] if dict_obj.get(key) is not None else default_val
 
-    @classmethod
-    def is_json(cls, content):
+    @staticmethod
+    def is_json(content):
+        """
+        判断字符串是否json格式
+        :param content: 要判断的字符串
+        :return: 如果是返回true，否则返回false
+        """
         try:
-            cls.str_to_json(content)
+            ast.literal_eval(content)
         except ValueError:
             return False
         return True

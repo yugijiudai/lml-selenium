@@ -8,7 +8,6 @@ from src.main.code.enums.ActionEnum import ActionEnum
 from src.main.code.handler.HandlerClient import HandlerClient
 from src.main.code.util.EnumUtil import EnumUtil
 from src.main.code.util.JsUtil import JsUtil
-from src.main.code.util.RequestUtil import RequestUtil
 from src.main.code.util.SeleniumUtil import SeleniumUtil
 from src.test.code.BaseSeleniumTest import BaseSeleniumTest
 
@@ -48,18 +47,3 @@ class TestSeleniumUtil(BaseSeleniumTest):
         super().do_test("百度")
         JsUtil.wait_page_load()
         # SeleniumUtil.get_request_msg()
-
-    def test_radar(self):
-        SeleniumUtil.get_url('')
-        SeleniumUtil.send_keys(By.CSS_SELECTOR,
-                               "div.lego-base-framework:nth-child(2) div.lego-container__lego-login:nth-child(2) div.bnr-login.brandradar-beauty-matrix-datastory-com-cn.bnr__light.is-dynamic-bg div.bnr-login-page div.bnr-login-page__container div.bnr-login-page__form-item:nth-child(1) > input.bnr-login-page__form-input",
-                               "")
-        SeleniumUtil.send_keys(By.CSS_SELECTOR,
-                               "div.lego-base-framework:nth-child(2) div.lego-container__lego-login:nth-child(2) div.bnr-login.brandradar-beauty-matrix-datastory-com-cn.bnr__light.is-dynamic-bg div.bnr-login-page div.bnr-login-page__container div.bnr-login-page__form-item:nth-child(2) > input.bnr-login-page__form-input",
-                               "")
-        SeleniumUtil.click_ele(By.CSS_SELECTOR,
-                               "div.lego-base-framework:nth-child(2) div.lego-container__lego-login:nth-child(2) div.bnr-login.brandradar-beauty-matrix-datastory-com-cn.bnr__light.is-dynamic-bg div.bnr-login-page div.bnr-login-page__container > button.el-button.bnr-login-page__login-btn.el-button--default:nth-child(4)")
-        JsUtil.wait_page_load()
-        SeleniumUtil.click_ele(By.CSS_SELECTOR, "div[title='品牌监测']")
-        JsUtil.wait_page_load()
-        RequestUtil.capture_request()

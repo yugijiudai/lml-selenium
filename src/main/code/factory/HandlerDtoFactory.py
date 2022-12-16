@@ -31,7 +31,11 @@ class HandlerDtoFactory:
         :param selenium_dto: 加载出来的用例dto
         :return: 返回构件好的dto
         """
-        ext = JsonUtil.str_to_json(selenium_dto.ext) if JsonUtil.is_json(selenium_dto.ext) else ''
+        ext = ''
+        if JsonUtil.is_json(selenium_dto.ext):
+            # 这里需要将所有的单引号转成双引号
+            ext = eval(selenium_dto.ext)
+            # ext = JsonUtil.str_to_json(selenium_dto.ext.replace("'", '"'))
         action_enum = EnumUtil.convert_to_enum(selenium_dto.element_action, ActionEnum)
         # 判断是否需要查找节点
         if EnumUtil.get_enum_val(action_enum) is True:
