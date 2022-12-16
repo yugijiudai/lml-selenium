@@ -34,7 +34,7 @@ class RequestUtil:
                 request_dto.param = cls.decode_json(request.body)
             elif request.method == 'GET':
                 request_dto.param = request.params
-            print(JsonUtil.to_json_str(request_dto.to_dict()))
+            # print(JsonUtil.to_json_str(request_dto.to_dict()))
             request_result.append(request_dto)
         return request_result
 

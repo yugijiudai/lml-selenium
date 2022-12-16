@@ -59,6 +59,9 @@ class InitUtil:
         driver = webdriver.Chrome(chrome_options=options, executable_path=config['driverPath'])
         if config['isMax']:
             driver.maximize_window()
+        else:
+            window_size = config['windowSize'].split(',')
+            driver.set_window_size(window_size[0], window_size[1])
         return driver
 
     @classmethod

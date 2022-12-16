@@ -74,6 +74,6 @@ class JsonUtil:
         """
         try:
             ast.literal_eval(content)
-        except ValueError:
+        except Exception:
             return False
         return True

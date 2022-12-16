@@ -26,11 +26,13 @@ class GlobalConfig:
             #  查找元素的时候等待元素的时间(显示等待,单位秒)
             "waitElement": 5,
             # 等待页面加载的最长时间(显示等待,单位秒)
-            "pageLoad": 30,
+            "pageLoad": 60,
             # 强制等待时间(单位秒)
             "waitTime": 0.5,
-            # 是否最大化窗口
-            "isMax": True,
+            # 是否最大化窗口，如果开启了窗口大小就会失效
+            "isMax": False,
             # 是否打开浏览器
-            "useNoHead": True
+            "useNoHead": True,
+            # 窗口的大小
+            "windowSize": "1920,1080"
         }

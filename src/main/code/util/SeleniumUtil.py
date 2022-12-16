@@ -12,6 +12,7 @@ from src.main.code.config.Logger import MyLogger
 from src.main.code.exceptions.FindElementException import FindElementException
 from src.main.code.exceptions.InitException import InitException
 from src.main.code.util.InitUtil import InitUtil
+from src.main.code.util.JsUtil import JsUtil
 
 
 class SeleniumUtil:
@@ -68,7 +69,9 @@ class SeleniumUtil:
         :param by:  元素定位的方式
         :param path: 需要点击的元素的路径
         """
-        cls.__fluent_find(by=by, path=path)[0].click()
+        ele = cls.__fluent_find(by=by, path=path)[0]
+        # ele.click()
+        JsUtil.run_js_with_param("arguments[0].click();", ele)
 
     @classmethod
     def __fluent_find(cls, by: By, path: str) -> list:
